@@ -13,3 +13,7 @@ build/
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+
+### Banco de dados H2 ###
+*.mv.db
+*.trace.db

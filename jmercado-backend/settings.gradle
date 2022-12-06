@@ -1,1 +1,3 @@
-rootProject.name = 'jmercado-backend'
+rootProject.name = 'jmercado'
+
+include("auth")

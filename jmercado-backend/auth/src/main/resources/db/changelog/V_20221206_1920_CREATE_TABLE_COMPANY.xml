@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet author="ernanilima" id="1">
+        <preConditions onFail="MARK_RAN" onFailMessage="A tabela COMPANY já existe">
+            <not>
+                <tableExists tableName="COMPANY"/>
+            </not>
+        </preConditions>
+        <createTable tableName="COMPANY">
+            <column name="ID_COMPANY" type="${uuid}">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_COMPANY_ID"/>
+            </column>
+            <column name="COMPANY_NAME" type="${varchar_50}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="UK_COMPANY_NAME"/>
+            </column>
+            <column name="TRADING_NAME" type="${varchar_50}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="UK_TRADING_NAME"/>
+            </column>
+            <column name="EIN" type="${varchar_20}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="UK_EIN"/>
+            </column>
+            <column name="EMAIL" type="${varchar_50}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="UK_EMAIL"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

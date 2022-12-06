@@ -22,10 +22,10 @@ public class Company {
     @Column(name = "id_company", length = 36, unique = true)
     private UUID idCompany;
 
-    @Column(length = 50, nullable = false)
+    @Column(name = "company_name", length = 50, nullable = false)
     private String companyName; // razao social
 
-    @Column(length = 50, nullable = false)
+    @Column(name = "trading_name", length = 50, nullable = false)
     private String tradingName; // nome fantasia
 
     @Column(length = 20, unique = true, nullable = false)

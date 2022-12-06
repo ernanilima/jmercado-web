@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <property name="uuid" value="uuid" dbms="postgresql, h2"/>
+    <property name="varchar_50" value="java.sql.Types.VARCHAR(50)" dbms="postgresql, h2"/>
+    <property name="varchar_20" value="java.sql.Types.VARCHAR(20)" dbms="postgresql, h2"/>
+
+    <includeAll path="db/changelog" relativeToChangelogFile="false"/>
+
+</databaseChangeLog>

@@ -7,6 +7,8 @@ import br.com.ernanilima.auth.service.CompanyService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
@@ -16,6 +18,12 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public void insert(CompanyDTO dto) {
+        companyRepository.save(companyConverter.toEntity(dto));
+    }
+
+    @Override
+    public void update(UUID id, CompanyDTO dto) {
+        dto = dto.toBuilder().id(id).build();
         companyRepository.save(companyConverter.toEntity(dto));
     }
 }

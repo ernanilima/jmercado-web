@@ -7,6 +7,7 @@
     <property name="uuid" value="uuid" dbms="postgresql, h2"/>
     <property name="varchar_50" value="java.sql.Types.VARCHAR(50)" dbms="postgresql, h2"/>
     <property name="varchar_20" value="java.sql.Types.VARCHAR(20)" dbms="postgresql, h2"/>
+    <property name="date_time" value="java.sql.Types.TIMESTAMP" dbms="postgresql, h2"/>
 
     <includeAll path="db/changelog" relativeToChangelogFile="false"/>
 

@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "company")
-public class Company implements JMercadoEntity<UUID>, Serializable {
+public class Company extends AuditingEntity implements AuthEntity<UUID>, Serializable {
 
     @Id
     @GeneratedValue(generator = "UUID")

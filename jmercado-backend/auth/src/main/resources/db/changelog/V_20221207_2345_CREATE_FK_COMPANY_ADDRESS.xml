@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet author="ernanilima" id="1">
+        <preConditions onFail="MARK_RAN" onFailMessage="A foreign key FK_COMPANY_ADDRESS já existe">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FK_COMPANY_ADDRESS" foreignKeyTableName="COMPANY"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="COMPANY" baseColumnNames="ADDRESS_ID"
+                                 constraintName="FK_COMPANY_ADDRESS" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedTableName="ADDRESS" referencedColumnNames="ID_ADDRESS" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

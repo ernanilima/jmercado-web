@@ -19,4 +19,6 @@ public class CompanyDTO implements Serializable {
     private String ein;
     private String email;
 
+    private AddressDTO address;
+
 }

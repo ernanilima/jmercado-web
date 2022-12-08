@@ -27,10 +27,14 @@
                 <constraints nullable="false" unique="true" uniqueConstraintName="UK_EMAIL"/>
             </column>
 
+            <column name="ADDRESS_ID" type="${uuid}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="UK_ADDRESS_ID"/>
+            </column>
+
             <column name="CREATED_BY" type="${varchar_50}"/>
-            <column name="CREATED_DATE" type="${date_time}"/>
+            <column name="CREATED_DATE" type="${datetime}"/>
             <column name="MODIFIED_BY" type="${varchar_50}"/>
-            <column name="MODIFIED_DATE" type="${date_time}"/>
+            <column name="MODIFIED_DATE" type="${datetime}"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet author="ernanilima" id="1">
+        <preConditions onFail="MARK_RAN" onFailMessage="A tabela ADDRESS já existe">
+            <not>
+                <tableExists tableName="ADDRESS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="ADDRESS">
+            <column name="ID_ADDRESS" type="${uuid}">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ADDRESS_ID"/>
+            </column>
+            <column name="ZIP_CODE" type="${zipcode}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COUNTRY" type="${varchar_50}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="REGION" type="${varchar_50}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STATE" type="${varchar_50}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CITY" type="${varchar_50}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DISTRICT" type="${varchar_50}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STREET" type="${varchar_50}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NUMBER" type="${varchar_20}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="COMPLEMENT" type="${varchar_50}"/>
+            <column name="CODE" type="${int}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="AREA_CODE" type="${int}">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="CREATED_BY" type="${varchar_50}"/>
+            <column name="CREATED_DATE" type="${datetime}"/>
+            <column name="MODIFIED_BY" type="${varchar_50}"/>
+            <column name="MODIFIED_DATE" type="${datetime}"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

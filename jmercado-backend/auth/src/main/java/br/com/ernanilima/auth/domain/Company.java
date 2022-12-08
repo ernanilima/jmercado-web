@@ -35,4 +35,8 @@ public class Company extends AuditingEntity implements AuthEntity<UUID>, Seriali
     @Column(length = 50, unique = true, nullable = false)
     private String email;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id_address")
+    private Address address;
+
 }

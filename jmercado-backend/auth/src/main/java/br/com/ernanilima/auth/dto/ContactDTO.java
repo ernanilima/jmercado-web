@@ -5,21 +5,18 @@ import lombok.Getter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Set;
 import java.util.UUID;
 
 @Builder(toBuilder = true)
 @Getter
-public class CompanyDTO implements Serializable {
+public class ContactDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
     private UUID id;
-    private String companyName;
-    private String tradingName;
-    private String ein;
-
-    private AddressDTO address;
-    private Set<ContactDTO> contacts;
+    private String email;
+    private String telephone;
+    private String cellPhone;
+    private boolean whatsappCellPhone;
 
 }

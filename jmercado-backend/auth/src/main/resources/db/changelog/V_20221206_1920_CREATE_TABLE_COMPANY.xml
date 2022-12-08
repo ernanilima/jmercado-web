@@ -23,9 +23,6 @@
             <column name="EIN" type="${varchar_20}">
                 <constraints nullable="false" unique="true" uniqueConstraintName="UK_EIN"/>
             </column>
-            <column name="EMAIL" type="${varchar_50}">
-                <constraints nullable="false" unique="true" uniqueConstraintName="UK_EMAIL"/>
-            </column>
 
             <column name="ADDRESS_ID" type="${uuid}">
                 <constraints nullable="false" unique="true" uniqueConstraintName="UK_ADDRESS_ID"/>

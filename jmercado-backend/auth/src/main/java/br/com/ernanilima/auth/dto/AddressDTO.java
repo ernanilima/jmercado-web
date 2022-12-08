@@ -14,27 +14,16 @@ public class AddressDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private UUID id;
-
     private String zipCode;
-
     private String country;
-
     private String region;
-
     private String state;
-
     private String city;
-
     private String district;
-
     private String street;
-
     private String number;
-
     private String complement;
-
     private Integer code;
-
     private Integer areaCode;
 
 }

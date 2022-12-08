@@ -6,6 +6,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -32,11 +34,12 @@ public class Company extends AuditingEntity implements AuthEntity<UUID>, Seriali
     @Column(length = 20, unique = true, nullable = false)
     private String ein;
 
-    @Column(length = 50, unique = true, nullable = false)
-    private String email;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id", referencedColumnName = "id_address")
     private Address address;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idJoin")
+    private Set<Contact> contacts = new HashSet<>();
 
 }

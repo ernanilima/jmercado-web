@@ -23,7 +23,7 @@ public class CompanyResource {
         return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(value = "/{idCompany}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{idCompany}")
     public ResponseEntity<Void> update(@PathVariable UUID idCompany, @RequestBody CompanyDTO dto) {
 
         companyService.update(idCompany, dto);

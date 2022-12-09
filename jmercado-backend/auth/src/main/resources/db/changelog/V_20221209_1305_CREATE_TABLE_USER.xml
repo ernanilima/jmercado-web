@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet author="ernanilima" id="1">
+        <preConditions onFail="MARK_RAN" onFailMessage="A tabela USERS já existe">
+            <not>
+                <tableExists tableName="USERS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USERS">
+            <column name="ID_USER" type="${uuid}">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USER_ID"/>
+            </column>
+            <column name="NAME" type="${varchar_50}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="UK_USER_NAME"/>
+            </column>
+            <column name="EMAIL" type="${varchar_50}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="UK_USER_EMAIL"/>
+            </column>
+            <column name="PASSWORD" type="${password}">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="CREATED_BY" type="${varchar_50}"/>
+            <column name="CREATED_DATE" type="${datetime}"/>
+            <column name="MODIFIED_BY" type="${varchar_50}"/>
+            <column name="MODIFIED_DATE" type="${datetime}"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

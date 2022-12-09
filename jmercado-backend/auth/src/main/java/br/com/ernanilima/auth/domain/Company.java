@@ -38,6 +38,7 @@ public class Company extends AuditingEntity implements AuthEntity<UUID>, Seriali
     @JoinColumn(name = "address_id", referencedColumnName = "id_address")
     private Address address;
 
+    @Builder.Default
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "idJoin")
     private Set<Contact> contacts = new HashSet<>();

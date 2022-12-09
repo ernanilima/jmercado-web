@@ -1,3 +1,5 @@
 rootProject.name = 'jmercado'
 
-include("auth")
+include(':auth')
+project(':auth').name = 'auth'
+project(':auth').projectDir = file('./auth')

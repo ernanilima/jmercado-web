@@ -24,4 +24,22 @@ public class AddressConverter implements DTOConverter<Address, AddressDTO> {
                 .areaCode(dto.getAreaCode())
                 .build();
     }
+
+    @Override
+    public AddressDTO toDTO(Address entity) {
+        return AddressDTO.builder()
+                .id(entity.getId())
+                .zipCode(entity.getZipCode())
+                .country(entity.getCountry())
+                .region(entity.getRegion())
+                .state(entity.getState())
+                .city(entity.getCity())
+                .district(entity.getDistrict())
+                .street(entity.getStreet())
+                .number(entity.getNumber())
+                .complement(entity.getComplement())
+                .code(entity.getCode())
+                .areaCode(entity.getAreaCode())
+                .build();
+    }
 }

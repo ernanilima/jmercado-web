@@ -18,4 +18,14 @@ public class UserConverter implements DTOConverter<User, UserDTO> {
                 .password(dto.getPassword())
                 .build();
     }
+
+    @Override
+    public UserDTO toDTO(User entity) {
+        return UserDTO.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .email(entity.getEmail())
+                .password(entity.getPassword())
+                .build();
+    }
 }

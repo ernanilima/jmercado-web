@@ -25,4 +25,16 @@ public class CompanyConverter implements DTOConverter<Company, CompanyDTO> {
                 .contacts(dto.getContacts().stream().map(contactConverter::toEntity).collect(Collectors.toSet()))
                 .build();
     }
+
+    @Override
+    public CompanyDTO toDTO(Company entity) {
+        return CompanyDTO.builder()
+                .id(entity.getId())
+                .companyName(entity.getCompanyName())
+                .tradingName(entity.getTradingName())
+                .ein(entity.getEin())
+                .address(addressConverter.toDTO(entity.getAddress()))
+                .contacts(entity.getContacts().stream().map(contactConverter::toDTO).collect(Collectors.toSet()))
+                .build();
+    }
 }

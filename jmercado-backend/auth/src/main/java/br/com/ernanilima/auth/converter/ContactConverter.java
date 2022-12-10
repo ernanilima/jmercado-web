@@ -17,4 +17,15 @@ public class ContactConverter implements DTOConverter<Contact, ContactDTO> {
                 .whatsappCellPhone(dto.isWhatsappCellPhone())
                 .build();
     }
+
+    @Override
+    public ContactDTO toDTO(Contact entity) {
+        return ContactDTO.builder()
+                .id(entity.getId())
+                .email(entity.getEmail())
+                .telephone(entity.getTelephone())
+                .cellPhone(entity.getCellPhone())
+                .whatsappCellPhone(entity.isWhatsappCellPhone())
+                .build();
+    }
 }

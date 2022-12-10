@@ -10,4 +10,6 @@ public interface CompanyService {
 
     void update(UUID id, CompanyDTO dto);
 
+    CompanyDTO findById(UUID id);
+
 }

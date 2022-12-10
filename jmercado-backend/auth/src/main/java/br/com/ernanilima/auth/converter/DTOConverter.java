@@ -6,4 +6,6 @@ public interface DTOConverter<E extends AuthEntity<?>, D> {
 
     E toEntity(D dto);
 
+    D toDTO(E entity);
+
 }

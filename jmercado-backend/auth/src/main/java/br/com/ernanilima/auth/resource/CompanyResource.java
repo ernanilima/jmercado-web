@@ -15,6 +15,11 @@ public class CompanyResource {
 
     private final CompanyService companyService;
 
+    @GetMapping(value = "/{idCompany}")
+    public ResponseEntity<CompanyDTO> findById(@PathVariable UUID idCompany) {
+        return ResponseEntity.ok().body(companyService.findById(idCompany));
+    }
+
     @PostMapping
     public ResponseEntity<Void> insert(@RequestBody CompanyDTO dto) {
 

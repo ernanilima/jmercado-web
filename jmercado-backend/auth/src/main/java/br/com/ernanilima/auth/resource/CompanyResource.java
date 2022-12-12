@@ -3,9 +3,12 @@ package br.com.ernanilima.auth.resource;
 import br.com.ernanilima.auth.dto.CompanyDTO;
 import br.com.ernanilima.auth.service.CompanyService;
 import br.com.ernanilima.auth.service.message.Message;
+import br.com.ernanilima.auth.service.validation.Post;
+import br.com.ernanilima.auth.service.validation.Put;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -40,7 +43,7 @@ public class CompanyResource {
     }
 
     @PostMapping
-    public ResponseEntity<Message> insert(@RequestBody CompanyDTO dto) {
+    public ResponseEntity<Message> insert(@Validated(Post.class) @RequestBody CompanyDTO dto) {
         log.info("{}:post:insert(obj), chamado o endpoint /empresa", this.getClass().getSimpleName());
 
         Message result = companyService.insert(dto);
@@ -52,7 +55,8 @@ public class CompanyResource {
     }
 
     @PutMapping(value = "/{idCompany}")
-    public ResponseEntity<Message> update(@PathVariable UUID idCompany, @RequestBody CompanyDTO dto) {
+    public ResponseEntity<Message> update(@PathVariable UUID idCompany,
+                                          @Validated(Put.class) @RequestBody CompanyDTO dto) {
         log.info("{}:put:update(obj), chamado o endpoint /empresa/{idCompany}", this.getClass().getSimpleName());
 
         Message result = companyService.update(idCompany, dto);

@@ -37,4 +37,8 @@ public class User extends AuditingEntity implements AuthEntity<UUID>, Serializab
     @Column(nullable = false)
     private String password;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
+
 }

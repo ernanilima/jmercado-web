@@ -6,9 +6,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Builder
@@ -42,5 +40,9 @@ public class Company extends AuditingEntity implements AuthEntity<UUID>, Seriali
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "idJoin")
     private Set<Contact> contacts = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "company")
+    private List<User> users = new ArrayList<>();
 
 }

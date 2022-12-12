@@ -3,6 +3,7 @@ package br.com.ernanilima.auth.dto;
 import br.com.ernanilima.auth.service.validation.Post;
 import br.com.ernanilima.auth.service.validation.Put;
 import br.com.ernanilima.auth.utils.Validation;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
@@ -34,5 +35,9 @@ public class UserDTO implements Serializable {
     @NotEmpty(message = "{empty.field}", groups = {Post.class, Put.class})
     @Length(min = 6, max = 15, message = "{length.field}", groups = {Post.class, Put.class})
     private String password;
+
+    @NotNull(message = "{empty.field}", groups = {Post.class})
+    @JsonIgnoreProperties({"address", "contacts"})
+    private CompanyDTO company;
 
 }

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 @AllArgsConstructor
 public class UserConverter implements DTOConverter<User, UserDTO> {
 
+    private final CompanyConverter companyConverter;
+
     @Override
     public User toEntity(UserDTO dto) {
         return User.builder()
@@ -16,6 +18,7 @@ public class UserConverter implements DTOConverter<User, UserDTO> {
                 .name(dto.getName())
                 .email(dto.getEmail())
                 .password(dto.getPassword())
+                .company(companyConverter.toEntity(dto.getCompany()))
                 .build();
     }
 
@@ -26,6 +29,7 @@ public class UserConverter implements DTOConverter<User, UserDTO> {
                 .name(entity.getName())
                 .email(entity.getEmail())
                 .password(entity.getPassword())
+                .company(companyConverter.toDTO(entity.getCompany()))
                 .build();
     }
 }

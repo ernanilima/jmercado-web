@@ -2,11 +2,14 @@ package br.com.ernanilima.auth.resource;
 
 import br.com.ernanilima.auth.dto.CompanyDTO;
 import br.com.ernanilima.auth.service.CompanyService;
+import br.com.ernanilima.auth.service.message.Message;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,20 +40,32 @@ public class CompanyResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> insert(@RequestBody CompanyDTO dto) {
+    public ResponseEntity<Message> insert(@RequestBody CompanyDTO dto) {
         log.info("{}:post:insert(obj), chamado o endpoint /empresa", this.getClass().getSimpleName());
 
-        companyService.insert(dto);
+        Message result = companyService.insert(dto);
 
-        return ResponseEntity.ok().build();
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{idCompany}").buildAndExpand(result.getId()).toUri();
+
+        return ResponseEntity.created(uri).body(result);
     }
 
     @PutMapping(value = "/{idCompany}")
-    public ResponseEntity<Void> update(@PathVariable UUID idCompany, @RequestBody CompanyDTO dto) {
+    public ResponseEntity<Message> update(@PathVariable UUID idCompany, @RequestBody CompanyDTO dto) {
         log.info("{}:put:update(obj), chamado o endpoint /empresa/{idCompany}", this.getClass().getSimpleName());
 
-        companyService.update(idCompany, dto);
+        Message result = companyService.update(idCompany, dto);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().body(result);
+    }
+
+    @DeleteMapping(value = "/{idCompany}")
+    public ResponseEntity<Message> delete(@PathVariable UUID idCompany) {
+        log.info("{}:delete:delete(obj), chamado o endpoint /empresa/{idCompany}", this.getClass().getSimpleName());
+
+        Message result = companyService.delete(idCompany);
+
+        return ResponseEntity.ok().body(result);
     }
 }

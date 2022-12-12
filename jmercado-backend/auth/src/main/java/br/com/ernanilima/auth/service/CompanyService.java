@@ -1,6 +1,7 @@
 package br.com.ernanilima.auth.service;
 
 import br.com.ernanilima.auth.dto.CompanyDTO;
+import br.com.ernanilima.auth.service.message.Message;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,8 +14,10 @@ public interface CompanyService {
 
     List<CompanyDTO> findAll();
 
-    void insert(CompanyDTO dto);
+    Message insert(CompanyDTO dto);
 
-    void update(UUID id, CompanyDTO dto);
+    Message update(UUID id, CompanyDTO dto);
+
+    Message delete(UUID id);
 
 }

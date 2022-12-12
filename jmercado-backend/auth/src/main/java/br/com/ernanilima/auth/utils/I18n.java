@@ -12,6 +12,10 @@ public final class I18n {
 
     public static final Locale DEFAULT_LOCALE = new Locale("pt", "BR");
 
+    public static final String MESSAGE_SUCCESS_INSERT = "message.success.insert";
+    public static final String MESSAGE_SUCCESS_UPDATE = "message.success.update";
+    public static final String MESSAGE_SUCCESS_DELETE = "message.success.delete";
+
     public static String getFieldName(String s) {
         return getMessage(s);
     }

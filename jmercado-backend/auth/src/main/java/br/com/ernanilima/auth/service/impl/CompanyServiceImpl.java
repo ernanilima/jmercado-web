@@ -10,8 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -21,17 +23,6 @@ public class CompanyServiceImpl implements CompanyService {
 
     private final CompanyRepository companyRepository;
     private final CompanyConverter companyConverter;
-
-    @Override
-    public void insert(CompanyDTO dto) {
-        companyRepository.save(companyConverter.toEntity(dto));
-    }
-
-    @Override
-    public void update(UUID id, CompanyDTO dto) {
-        dto = dto.toBuilder().id(id).build();
-        companyRepository.save(companyConverter.toEntity(dto));
-    }
 
     @Override
     public CompanyDTO findById(UUID id) {
@@ -45,6 +36,45 @@ public class CompanyServiceImpl implements CompanyService {
         });
 
         log.info("{}:findById(obj), localizado a empresa com o id {}", CLASS_NAME, id);
+
         return companyConverter.toDTO(company);
+    }
+
+    @Override
+    public CompanyDTO findByEin(String ein) {
+        log.info("{}:findByEin(obj), iniciando busca da empresa com o cnpj {}", CLASS_NAME, ein);
+
+        Optional<Company> result = companyRepository.findByEin(ein);
+
+        Company company = result.orElseThrow(() -> {
+            log.error("{}:findByEin(obj), erro ao buscar a empresa com o cnpj {}", CLASS_NAME, ein);
+            return new ObjectNotFoundException("Não encontrado");
+        });
+
+        log.info("{}:findByEin(obj), localizado a empresa com o cnpj {}", CLASS_NAME, ein);
+
+        return companyConverter.toDTO(company);
+    }
+
+    @Override
+    public List<CompanyDTO> findAll() {
+        log.info("{}:findAll(), iniciando busca de todas as empresa", CLASS_NAME);
+
+        List<Company> results = companyRepository.findAll();
+
+        log.info("{}:findAll(), localizado {} empresa(s)", CLASS_NAME, results.size());
+
+        return results.stream().map(companyConverter::toDTO).collect(Collectors.toList());
+    }
+
+    @Override
+    public void insert(CompanyDTO dto) {
+        companyRepository.save(companyConverter.toEntity(dto));
+    }
+
+    @Override
+    public void update(UUID id, CompanyDTO dto) {
+        dto = dto.toBuilder().id(id).build();
+        companyRepository.save(companyConverter.toEntity(dto));
     }
 }

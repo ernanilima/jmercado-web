@@ -3,8 +3,16 @@ package br.com.ernanilima.auth.service;
 import br.com.ernanilima.auth.dto.UserDTO;
 import br.com.ernanilima.auth.service.message.Message;
 
+import java.util.List;
+import java.util.UUID;
+
 public interface UserService {
 
-    Message insert(UserDTO dto);
+    UserDTO findById(UUID id);
 
+    UserDTO findByEmail(String email);
+
+    List<UserDTO> findAll();
+
+    Message insert(UserDTO dto);
 }

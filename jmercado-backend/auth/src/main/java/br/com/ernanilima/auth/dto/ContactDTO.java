@@ -2,7 +2,6 @@ package br.com.ernanilima.auth.dto;
 
 import br.com.ernanilima.auth.service.validation.Post;
 import br.com.ernanilima.auth.service.validation.Put;
-import br.com.ernanilima.auth.utils.Validation;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
@@ -14,6 +13,8 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
 
+import static br.com.ernanilima.auth.service.validation.AuthRegex.EMAIL_REGEX;
+
 @Builder(toBuilder = true)
 @Getter
 public class ContactDTO implements Serializable {
@@ -24,7 +25,7 @@ public class ContactDTO implements Serializable {
     private UUID id;
 
     @NotEmpty(message = "{empty.field}", groups = {Post.class, Put.class})
-    @Email(regexp = Validation.EMAIL_REGEX, message = "{invalid.email}", groups = {Post.class, Put.class})
+    @Email(regexp = EMAIL_REGEX, message = "{invalid.email}", groups = {Post.class, Put.class})
     private String email;
 
     @Length(min = 10, max = 15, message = "{length.field}", groups = {Post.class, Put.class})

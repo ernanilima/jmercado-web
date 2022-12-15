@@ -2,7 +2,6 @@ package br.com.ernanilima.auth.dto;
 
 import br.com.ernanilima.auth.service.validation.Post;
 import br.com.ernanilima.auth.service.validation.Put;
-import br.com.ernanilima.auth.utils.Validation;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +13,8 @@ import javax.validation.constraints.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
+
+import static br.com.ernanilima.auth.service.validation.AuthRegex.EMAIL_REGEX;
 
 @Builder(toBuilder = true)
 @Getter
@@ -29,7 +30,7 @@ public class UserDTO implements Serializable {
     private String name;
 
     @NotEmpty(message = "{empty.field}", groups = {Post.class, Put.class})
-    @Email(regexp = Validation.EMAIL_REGEX, message = "{invalid.email}", groups = {Post.class, Put.class})
+    @Email(regexp = EMAIL_REGEX, message = "{invalid.email}", groups = {Post.class, Put.class})
     private String email;
 
     @NotEmpty(message = "{empty.field}", groups = {Post.class, Put.class})

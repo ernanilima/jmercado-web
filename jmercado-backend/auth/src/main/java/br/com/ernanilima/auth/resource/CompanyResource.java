@@ -1,8 +1,11 @@
 package br.com.ernanilima.auth.resource;
 
 import br.com.ernanilima.auth.dto.CompanyDTO;
+import br.com.ernanilima.auth.param.AuthEin;
+import br.com.ernanilima.auth.param.AuthUUID;
 import br.com.ernanilima.auth.service.CompanyService;
 import br.com.ernanilima.auth.service.message.Message;
+import br.com.ernanilima.auth.service.validation.Get;
 import br.com.ernanilima.auth.service.validation.Post;
 import br.com.ernanilima.auth.service.validation.Put;
 import lombok.AllArgsConstructor;
@@ -24,16 +27,16 @@ public class CompanyResource {
 
     private final CompanyService companyService;
 
-    @GetMapping(value = "/{idCompany}")
-    public ResponseEntity<CompanyDTO> findById(@PathVariable UUID idCompany) {
-        log.info("{}:get:findById(obj), chamado o endpoint /empresa/{idCompany}", this.getClass().getSimpleName());
-        return ResponseEntity.ok().body(companyService.findById(idCompany));
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<CompanyDTO> findById(@Validated(Get.class) AuthUUID obj) {
+        log.info("{}:get:findById(obj), chamado o endpoint /empresa/{id}", this.getClass().getSimpleName());
+        return ResponseEntity.ok().body(companyService.findById(obj.getId()));
     }
 
     @GetMapping(value = "/cnpj/{ein}")
-    public ResponseEntity<CompanyDTO> findByEin(@PathVariable String ein) {
+    public ResponseEntity<CompanyDTO> findByEin(@Validated(Get.class) AuthEin obj) {
         log.info("{}:get:findByEin(obj), chamado o endpoint /empresa/cnpj/{ein}", this.getClass().getSimpleName());
-        return ResponseEntity.ok().body(companyService.findByEin(ein));
+        return ResponseEntity.ok().body(companyService.findByEin(obj.getEin()));
     }
 
     @GetMapping

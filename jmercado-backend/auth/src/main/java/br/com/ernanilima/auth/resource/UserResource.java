@@ -7,6 +7,7 @@ import br.com.ernanilima.auth.service.UserService;
 import br.com.ernanilima.auth.service.message.Message;
 import br.com.ernanilima.auth.service.validation.Get;
 import br.com.ernanilima.auth.service.validation.Post;
+import br.com.ernanilima.auth.service.validation.Put;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -53,5 +54,15 @@ public class UserResource {
                 .path("/{idUser}").buildAndExpand(result.getId()).toUri();
 
         return ResponseEntity.created(uri).body(result);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Message> update(@Validated(Put.class) AuthUUID obj,
+                                          @Validated(Put.class) @RequestBody UserDTO dto) {
+        log.info("{}:put:update(obj), chamado o endpoint /usuario/{id}", this.getClass().getSimpleName());
+
+        Message result = userService.update(obj.getId(), dto);
+
+        return ResponseEntity.ok().body(result);
     }
 }

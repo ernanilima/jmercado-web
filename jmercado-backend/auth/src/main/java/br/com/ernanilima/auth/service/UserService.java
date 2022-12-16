@@ -15,4 +15,7 @@ public interface UserService {
     List<UserDTO> findAll();
 
     Message insert(UserDTO dto);
+
+    Message update(UUID id, UserDTO dto);
+
 }

@@ -57,12 +57,12 @@ public class CompanyResource {
         return ResponseEntity.created(uri).body(result);
     }
 
-    @PutMapping(value = "/{idCompany}")
-    public ResponseEntity<Message> update(@PathVariable UUID idCompany,
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Message> update(@Validated(Put.class) AuthUUID obj,
                                           @Validated(Put.class) @RequestBody CompanyDTO dto) {
-        log.info("{}:put:update(obj), chamado o endpoint /empresa/{idCompany}", this.getClass().getSimpleName());
+        log.info("{}:put:update(obj), chamado o endpoint /empresa/{id}", this.getClass().getSimpleName());
 
-        Message result = companyService.update(idCompany, dto);
+        Message result = companyService.update(obj.getId(), dto);
 
         return ResponseEntity.ok().body(result);
     }

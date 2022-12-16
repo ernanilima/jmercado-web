@@ -86,4 +86,18 @@ public class UserServiceImpl implements UserService {
 
         return message.getSuccessInsertForId(result.getId());
     }
+
+    @Override
+    public Message update(UUID id, UserDTO dto) {
+        log.info("{}:update(obj), iniciando atualizacao do usuario com o id {}", CLASS_NAME, id);
+
+        UserDTO userDTO = this.findById(id);
+
+        dto = dto.toBuilder().id(id).company(userDTO.getCompany()).build();
+        userRepository.save(userConverter.toEntity(dto));
+
+        log.info("{}:update(obj), atualizado o usuario", CLASS_NAME);
+
+        return message.getSuccessUpdateForId(id);
+    }
 }

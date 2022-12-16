@@ -1,6 +1,7 @@
 package br.com.ernanilima.auth.param;
 
 import br.com.ernanilima.auth.service.validation.Get;
+import br.com.ernanilima.auth.service.validation.Put;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
@@ -13,8 +14,8 @@ import static br.com.ernanilima.auth.service.validation.AuthRegex.UUID_REGEX;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AuthUUID {
 
-    @NotEmpty(message = "{empty.field}", groups = {Get.class})
-    @Pattern(message = "{invalid.uuid}", regexp = UUID_REGEX, groups = {Get.class})
+    @NotEmpty(message = "{empty.field}", groups = {Get.class, Put.class})
+    @Pattern(message = "{invalid.uuid}", regexp = UUID_REGEX, groups = {Get.class, Put.class})
     private String id;
 
     public UUID getId() {

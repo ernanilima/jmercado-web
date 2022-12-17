@@ -18,4 +18,6 @@ public interface UserService {
 
     Message update(UUID id, UserDTO dto);
 
+    Message delete(UUID id);
+
 }

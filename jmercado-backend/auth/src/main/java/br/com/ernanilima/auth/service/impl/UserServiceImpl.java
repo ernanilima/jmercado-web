@@ -100,4 +100,17 @@ public class UserServiceImpl implements UserService {
 
         return message.getSuccessUpdateForId(id);
     }
+
+    @Override
+    public Message delete(UUID id) {
+        log.info("{}:delete(obj), iniciando exclusao do usuario com o id {}", CLASS_NAME, id);
+
+        this.findById(id);
+
+        userRepository.deleteById(id);
+
+        log.info("{}:delete(obj), excluido o usuario", CLASS_NAME);
+
+        return message.getSuccessDeleteForId(id);
+    }
 }

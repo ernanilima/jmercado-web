@@ -5,6 +5,7 @@ import br.com.ernanilima.auth.param.AuthEin;
 import br.com.ernanilima.auth.param.AuthUUID;
 import br.com.ernanilima.auth.service.CompanyService;
 import br.com.ernanilima.auth.service.message.Message;
+import br.com.ernanilima.auth.service.validation.Delete;
 import br.com.ernanilima.auth.service.validation.Get;
 import br.com.ernanilima.auth.service.validation.Post;
 import br.com.ernanilima.auth.service.validation.Put;
@@ -17,7 +18,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @AllArgsConstructor
@@ -67,11 +67,11 @@ public class CompanyResource {
         return ResponseEntity.ok().body(result);
     }
 
-    @DeleteMapping(value = "/{idCompany}")
-    public ResponseEntity<Message> delete(@PathVariable UUID idCompany) {
-        log.info("{}:delete:delete(obj), chamado o endpoint /empresa/{idCompany}", this.getClass().getSimpleName());
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Message> delete(@Validated(Delete.class) AuthUUID obj) {
+        log.info("{}:delete:delete(obj), chamado o endpoint /empresa/{id}", this.getClass().getSimpleName());
 
-        Message result = companyService.delete(idCompany);
+        Message result = companyService.delete(obj.getId());
 
         return ResponseEntity.ok().body(result);
     }

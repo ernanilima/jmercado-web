@@ -5,6 +5,7 @@ import br.com.ernanilima.auth.param.AuthEmail;
 import br.com.ernanilima.auth.param.AuthUUID;
 import br.com.ernanilima.auth.service.UserService;
 import br.com.ernanilima.auth.service.message.Message;
+import br.com.ernanilima.auth.service.validation.Delete;
 import br.com.ernanilima.auth.service.validation.Get;
 import br.com.ernanilima.auth.service.validation.Post;
 import br.com.ernanilima.auth.service.validation.Put;
@@ -62,6 +63,15 @@ public class UserResource {
         log.info("{}:put:update(obj), chamado o endpoint /usuario/{id}", this.getClass().getSimpleName());
 
         Message result = userService.update(obj.getId(), dto);
+
+        return ResponseEntity.ok().body(result);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Message> delete(@Validated(Delete.class) AuthUUID obj) {
+        log.info("{}:delete:delete(obj), chamado o endpoint /usuario/{id}", this.getClass().getSimpleName());
+
+        Message result = userService.delete(obj.getId());
 
         return ResponseEntity.ok().body(result);
     }

@@ -6,6 +6,7 @@ import br.com.ernanilima.auth.dto.CompanyDTO;
 import br.com.ernanilima.auth.dto.UserDTO;
 import br.com.ernanilima.auth.repository.UserRepository;
 import br.com.ernanilima.auth.service.CompanyService;
+import br.com.ernanilima.auth.service.ReadOnlyService;
 import br.com.ernanilima.auth.service.UserService;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
 import br.com.ernanilima.auth.service.message.Message;
@@ -13,37 +14,18 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @AllArgsConstructor
-public class UserServiceImpl implements UserService {
-    private final String CLASS_NAME = this.getClass().getSimpleName();
+public class UserServiceImpl extends ReadOnlyService<User, UserDTO, UUID> implements UserService {
 
     private final UserRepository userRepository;
     private final UserConverter userConverter;
     private final CompanyService companyService;
     private final Message message;
-
-    @Override
-    public UserDTO findById(UUID id) {
-        log.info("{}:findById(obj), iniciando busca do usuario com o id {}", CLASS_NAME, id);
-
-        Optional<User> result = userRepository.findById(id);
-
-        User user = result.orElseThrow(() -> {
-            log.error("{}:findById(obj), erro ao buscar o usuario com o id {}", CLASS_NAME, id);
-            return new ObjectNotFoundException("Não encontrado");
-        });
-
-        log.info("{}:findById(obj), localizado o usuario com o id {}", CLASS_NAME, id);
-
-        return userConverter.toDTO(user);
-    }
 
     @Override
     public UserDTO findByEmail(String email) {
@@ -59,17 +41,6 @@ public class UserServiceImpl implements UserService {
         log.info("{}:findByEmail(obj), localizado o usuario com o e-mail {}", CLASS_NAME, email);
 
         return userConverter.toDTO(user);
-    }
-
-    @Override
-    public List<UserDTO> findAll() {
-        log.info("{}:findAll(), iniciando busca de todos os usuarios", CLASS_NAME);
-
-        List<User> results = userRepository.findAll();
-
-        log.info("{}:findAll(), localizado {} usuario(s)", CLASS_NAME, results.size());
-
-        return results.stream().map(userConverter::toDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -91,7 +62,7 @@ public class UserServiceImpl implements UserService {
     public Message update(UUID id, UserDTO dto) {
         log.info("{}:update(obj), iniciando atualizacao do usuario com o id {}", CLASS_NAME, id);
 
-        UserDTO userDTO = this.findById(id);
+        UserDTO userDTO = super.findById(id);
 
         dto = dto.toBuilder().id(id).company(userDTO.getCompany()).build();
         userRepository.save(userConverter.toEntity(dto));
@@ -105,7 +76,7 @@ public class UserServiceImpl implements UserService {
     public Message delete(UUID id) {
         log.info("{}:delete(obj), iniciando exclusao do usuario com o id {}", CLASS_NAME, id);
 
-        this.findById(id);
+        super.findById(id);
 
         userRepository.deleteById(id);
 

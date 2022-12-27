@@ -1,15 +1,15 @@
 package br.com.ernanilima.auth.resource;
 
+import br.com.ernanilima.auth.domain.Company;
 import br.com.ernanilima.auth.dto.CompanyDTO;
 import br.com.ernanilima.auth.param.AuthEin;
 import br.com.ernanilima.auth.param.AuthUUID;
-import br.com.ernanilima.auth.service.CompanyService;
+import br.com.ernanilima.auth.service.impl.CompanyServiceImpl;
 import br.com.ernanilima.auth.service.message.Message;
 import br.com.ernanilima.auth.service.validation.Delete;
 import br.com.ernanilima.auth.service.validation.Get;
 import br.com.ernanilima.auth.service.validation.Post;
 import br.com.ernanilima.auth.service.validation.Put;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -17,39 +17,29 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
-import java.util.List;
+import java.util.UUID;
 
 @Slf4j
-@AllArgsConstructor
 @RestController
 @RequestMapping("/empresa")
-public class CompanyResource {
+public class CompanyResource extends ReadOnlyResource<Company, CompanyDTO, UUID> {
 
-    private final CompanyService companyService;
-
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<CompanyDTO> findById(@Validated(Get.class) AuthUUID obj) {
-        log.info("{}:get:findById(obj), chamado o endpoint /empresa/{id}", this.getClass().getSimpleName());
-        return ResponseEntity.ok().body(companyService.findById(obj.getId()));
+    @Override
+    public CompanyServiceImpl getService() {
+        return (CompanyServiceImpl) super.getService();
     }
 
     @GetMapping(value = "/cnpj/{ein}")
     public ResponseEntity<CompanyDTO> findByEin(@Validated(Get.class) AuthEin obj) {
         log.info("{}:get:findByEin(obj), chamado o endpoint /empresa/cnpj/{ein}", this.getClass().getSimpleName());
-        return ResponseEntity.ok().body(companyService.findByEin(obj.getEin()));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<CompanyDTO>> findAll() {
-        log.info("{}:get:findAll(), chamado o endpoint /empresa", this.getClass().getSimpleName());
-        return ResponseEntity.ok().body(companyService.findAll());
+        return ResponseEntity.ok().body(getService().findByEin(obj.getEin()));
     }
 
     @PostMapping
     public ResponseEntity<Message> insert(@Validated(Post.class) @RequestBody CompanyDTO dto) {
         log.info("{}:post:insert(obj), chamado o endpoint /empresa", this.getClass().getSimpleName());
 
-        Message result = companyService.insert(dto);
+        Message result = getService().insert(dto);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{idCompany}").buildAndExpand(result.getId()).toUri();
@@ -62,7 +52,7 @@ public class CompanyResource {
                                           @Validated(Put.class) @RequestBody CompanyDTO dto) {
         log.info("{}:put:update(obj), chamado o endpoint /empresa/{id}", this.getClass().getSimpleName());
 
-        Message result = companyService.update(obj.getId(), dto);
+        Message result = getService().update(obj.getId(), dto);
 
         return ResponseEntity.ok().body(result);
     }
@@ -71,7 +61,7 @@ public class CompanyResource {
     public ResponseEntity<Message> delete(@Validated(Delete.class) AuthUUID obj) {
         log.info("{}:delete:delete(obj), chamado o endpoint /empresa/{id}", this.getClass().getSimpleName());
 
-        Message result = companyService.delete(obj.getId());
+        Message result = getService().delete(obj.getId());
 
         return ResponseEntity.ok().body(result);
     }

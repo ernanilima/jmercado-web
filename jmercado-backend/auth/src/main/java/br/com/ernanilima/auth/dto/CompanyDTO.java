@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Builder(toBuilder = true)
 @Getter
-public class CompanyDTO implements Serializable {
+public class CompanyDTO implements DTOUpdate, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -45,4 +45,8 @@ public class CompanyDTO implements Serializable {
     @NotNull(message = "{empty.field}", groups = {Post.class, Put.class})
     private Set<ContactDTO> contacts;
 
+    @Override
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

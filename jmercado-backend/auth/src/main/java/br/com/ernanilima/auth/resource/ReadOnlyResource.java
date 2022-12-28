@@ -1,6 +1,7 @@
 package br.com.ernanilima.auth.resource;
 
 import br.com.ernanilima.auth.domain.AuthEntity;
+import br.com.ernanilima.auth.dto.DTOUpdate;
 import br.com.ernanilima.auth.param.AuthUUID;
 import br.com.ernanilima.auth.service.ReadOnlyService;
 import br.com.ernanilima.auth.service.validation.Get;
@@ -16,7 +17,7 @@ import java.util.List;
 
 @Slf4j
 @Getter
-public abstract class ReadOnlyResource<E extends AuthEntity<I>, D extends Serializable, I extends Serializable> {
+public abstract class ReadOnlyResource<E extends AuthEntity<I>, D extends DTOUpdate, I extends Serializable> {
 
     @Autowired
     private ReadOnlyService<E, D, I> service;

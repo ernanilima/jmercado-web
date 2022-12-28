@@ -18,7 +18,7 @@ import static br.com.ernanilima.auth.service.validation.AuthRegex.EMAIL_REGEX;
 
 @Builder(toBuilder = true)
 @Getter
-public class UserDTO implements Serializable {
+public class UserDTO implements DTOUpdate, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -41,4 +41,8 @@ public class UserDTO implements Serializable {
     @JsonIgnoreProperties({"address", "contacts"})
     private CompanyDTO company;
 
+    @Override
+    public void setId(UUID id) {
+        this.id = id;
+    }
 }

@@ -6,31 +6,24 @@ import br.com.ernanilima.auth.dto.CompanyDTO;
 import br.com.ernanilima.auth.dto.UserDTO;
 import br.com.ernanilima.auth.repository.UserRepository;
 import br.com.ernanilima.auth.service.CompanyService;
-import br.com.ernanilima.auth.service.ReadOnlyService;
+import br.com.ernanilima.auth.service.CrudService;
 import br.com.ernanilima.auth.service.UserService;
-import br.com.ernanilima.auth.service.exception.DataIntegrityException;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
-import br.com.ernanilima.auth.service.message.Message;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
 
-import static br.com.ernanilima.auth.utils.I18n.*;
-import static java.text.MessageFormat.format;
-
 @Slf4j
 @Service
 @AllArgsConstructor
-public class UserServiceImpl extends ReadOnlyService<User, UserDTO, UUID> implements UserService {
+public class UserServiceImpl extends CrudService<User, UserDTO, UUID> implements UserService {
 
     private final UserRepository userRepository;
     private final UserConverter userConverter;
     private final CompanyService companyService;
-    private final Message message;
 
     @Override
     public UserDTO findByEmail(String email) {
@@ -49,54 +42,28 @@ public class UserServiceImpl extends ReadOnlyService<User, UserDTO, UUID> implem
     }
 
     @Override
-    public Message insert(UserDTO dto) {
-        log.info("{}:insert(obj), iniciando insercao do usuario com o e-mail {}", CLASS_NAME, dto.getEmail());
+    protected UserDTO beforeInsert(UserDTO dto) {
+        log.info("{}:beforeInsert(obj), iniciado manipulacao antes da insercao do usuario", CLASS_NAME);
 
         CompanyDTO companyDTO = companyService.findById(dto.getCompany().getId());
 
         dto = dto.toBuilder().company(companyDTO).build();
 
-        User result = this.save(userConverter.toEntity(dto));
+        log.info("{}:beforeInsert(obj), atualizado vinculacao antes da insercao do usuario", CLASS_NAME);
 
-        log.info("{}:insert(obj), inserido o usuario", CLASS_NAME);
-
-        return message.getSuccessInsertForId(result.getId());
+        return dto;
     }
 
     @Override
-    public Message update(UUID id, UserDTO dto) {
-        log.info("{}:update(obj), iniciando atualizacao do usuario com o id {}", CLASS_NAME, id);
+    protected UserDTO beforeUpdate(UserDTO dto) {
+        log.info("{}:beforeUpdate(obj), iniciado manipulacao antes da atualizar do usuario", CLASS_NAME);
 
-        UserDTO userDTO = super.findById(id);
+        UserDTO userDTO = super.findById(dto.getId());
 
-        dto = dto.toBuilder().id(id).company(userDTO.getCompany()).build();
-        this.save(userConverter.toEntity(dto));
+        dto = dto.toBuilder().company(userDTO.getCompany()).build();
 
-        log.info("{}:update(obj), atualizado o usuario", CLASS_NAME);
+        log.info("{}:beforeUpdate(obj), atualizado vinculacao antes da atualizar o usuario", CLASS_NAME);
 
-        return message.getSuccessUpdateForId(id);
-    }
-
-    private User save(User entity) {
-        try {
-            return userRepository.save(entity);
-        } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityException(
-                    format(getMessage(INTEGRITY_INSERT_UPDATE), getFieldName(e))
-            );
-        }
-    }
-
-    @Override
-    public Message delete(UUID id) {
-        log.info("{}:delete(obj), iniciando exclusao do usuario com o id {}", CLASS_NAME, id);
-
-        super.findById(id);
-
-        userRepository.deleteById(id);
-
-        log.info("{}:delete(obj), excluido o usuario", CLASS_NAME);
-
-        return message.getSuccessDeleteForId(id);
+        return dto;
     }
 }

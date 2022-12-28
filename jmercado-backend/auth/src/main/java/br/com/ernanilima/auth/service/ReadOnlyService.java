@@ -2,6 +2,7 @@ package br.com.ernanilima.auth.service;
 
 import br.com.ernanilima.auth.converter.DTOConverter;
 import br.com.ernanilima.auth.domain.AuthEntity;
+import br.com.ernanilima.auth.dto.DTOUpdate;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Getter
-public abstract class ReadOnlyService<E extends AuthEntity<I>, D extends Serializable, I extends Serializable> {
+public abstract class ReadOnlyService<E extends AuthEntity<I>, D extends DTOUpdate, I extends Serializable> {
     protected final String CLASS_NAME = this.getClass().getSimpleName();
 
     @Autowired

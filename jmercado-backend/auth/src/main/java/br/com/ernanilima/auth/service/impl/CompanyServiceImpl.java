@@ -6,14 +6,19 @@ import br.com.ernanilima.auth.dto.CompanyDTO;
 import br.com.ernanilima.auth.repository.CompanyRepository;
 import br.com.ernanilima.auth.service.CompanyService;
 import br.com.ernanilima.auth.service.ReadOnlyService;
+import br.com.ernanilima.auth.service.exception.DataIntegrityException;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
 import br.com.ernanilima.auth.service.message.Message;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
+
+import static br.com.ernanilima.auth.utils.I18n.*;
+import static java.text.MessageFormat.format;
 
 @Slf4j
 @Service
@@ -44,7 +49,7 @@ public class CompanyServiceImpl extends ReadOnlyService<Company, CompanyDTO, UUI
     public Message insert(CompanyDTO dto) {
         log.info("{}:insert(obj), iniciando insercao da empresa com o cnpj {}", CLASS_NAME, dto.getEin());
 
-        Company result = companyRepository.save(companyConverter.toEntity(dto));
+        Company result = this.save(companyConverter.toEntity(dto));
 
         log.info("{}:insert(obj), inserido a empresa", CLASS_NAME);
 
@@ -58,11 +63,21 @@ public class CompanyServiceImpl extends ReadOnlyService<Company, CompanyDTO, UUI
         super.findById(id);
 
         dto = dto.toBuilder().id(id).build();
-        companyRepository.save(companyConverter.toEntity(dto));
+        this.save(companyConverter.toEntity(dto));
 
         log.info("{}:update(obj), atualizado a empresa", CLASS_NAME);
 
         return message.getSuccessUpdateForId(id);
+    }
+
+    private Company save(Company entity) {
+        try {
+            return companyRepository.save(entity);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException(
+                    format(getMessage(INTEGRITY_INSERT_UPDATE), getFieldName(e))
+            );
+        }
     }
 
     @Override
@@ -71,7 +86,13 @@ public class CompanyServiceImpl extends ReadOnlyService<Company, CompanyDTO, UUI
 
         super.findById(id);
 
-        companyRepository.deleteById(id);
+        try {
+            companyRepository.deleteById(id);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException(
+                    format(getMessage(INTEGRITY_DELETE), getClassName(Company.class.getSimpleName()))
+            );
+        }
 
         log.info("{}:delete(obj), excluido a empresa", CLASS_NAME);
 

@@ -25,7 +25,7 @@
             </column>
 
             <column name="COMPANY_ID" type="${uuid}">
-                <constraints nullable="false" unique="true" uniqueConstraintName="UK_USER_COMPANY_ID"/>
+                <constraints nullable="false"/>
             </column>
 
             <column name="CREATED_BY" type="${varchar_50}"/>

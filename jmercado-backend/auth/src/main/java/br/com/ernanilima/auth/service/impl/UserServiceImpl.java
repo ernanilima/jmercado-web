@@ -8,14 +8,19 @@ import br.com.ernanilima.auth.repository.UserRepository;
 import br.com.ernanilima.auth.service.CompanyService;
 import br.com.ernanilima.auth.service.ReadOnlyService;
 import br.com.ernanilima.auth.service.UserService;
+import br.com.ernanilima.auth.service.exception.DataIntegrityException;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
 import br.com.ernanilima.auth.service.message.Message;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
+
+import static br.com.ernanilima.auth.utils.I18n.*;
+import static java.text.MessageFormat.format;
 
 @Slf4j
 @Service
@@ -51,7 +56,7 @@ public class UserServiceImpl extends ReadOnlyService<User, UserDTO, UUID> implem
 
         dto = dto.toBuilder().company(companyDTO).build();
 
-        User result = userRepository.save(userConverter.toEntity(dto));
+        User result = this.save(userConverter.toEntity(dto));
 
         log.info("{}:insert(obj), inserido o usuario", CLASS_NAME);
 
@@ -65,11 +70,21 @@ public class UserServiceImpl extends ReadOnlyService<User, UserDTO, UUID> implem
         UserDTO userDTO = super.findById(id);
 
         dto = dto.toBuilder().id(id).company(userDTO.getCompany()).build();
-        userRepository.save(userConverter.toEntity(dto));
+        this.save(userConverter.toEntity(dto));
 
         log.info("{}:update(obj), atualizado o usuario", CLASS_NAME);
 
         return message.getSuccessUpdateForId(id);
+    }
+
+    private User save(User entity) {
+        try {
+            return userRepository.save(entity);
+        } catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityException(
+                    format(getMessage(INTEGRITY_INSERT_UPDATE), getFieldName(e))
+            );
+        }
     }
 
     @Override

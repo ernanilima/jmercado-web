@@ -23,10 +23,10 @@ public class Company extends AuditingEntity implements AuthEntity<UUID>, Seriali
     @Column(name = "id_company", length = 36, unique = true)
     private UUID id;
 
-    @Column(name = "company_name", length = 50, nullable = false)
+    @Column(name = "company_name", length = 50, unique = true, nullable = false)
     private String companyName;
 
-    @Column(name = "trading_name", length = 50, nullable = false)
+    @Column(name = "trading_name", length = 50, unique = true, nullable = false)
     private String tradingName;
 
     @Column(length = 20, unique = true, nullable = false)

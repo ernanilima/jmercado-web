@@ -14,7 +14,7 @@ import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "company")
-public class Company extends AuditingEntity implements AuthEntity<UUID>, Serializable {
+public class Company extends AuditingEntity implements AuthEntity, Serializable {
 
     @Id
     @GeneratedValue(generator = "UUID")

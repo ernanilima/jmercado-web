@@ -12,20 +12,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.io.Serializable;
 import java.util.List;
 
 @Slf4j
 @Getter
-public abstract class ReadOnlyResource<E extends AuthEntity<I>, D extends DTOUpdate, I extends Serializable> {
+public abstract class ReadOnlyResource<E extends AuthEntity, D extends DTOUpdate> {
 
     @Autowired
-    private ReadOnlyService<E, D, I> service;
+    private ReadOnlyService<E, D> service;
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<D> findById(@Validated(Get.class) AuthUUID obj) {
         log.info("{}:get:findById(obj)", this.getClass().getSimpleName());
-        return ResponseEntity.ok().body(service.findById((I) obj.getId()));
+        return ResponseEntity.ok().body(service.findById(obj.getId()));
     }
 
     @GetMapping

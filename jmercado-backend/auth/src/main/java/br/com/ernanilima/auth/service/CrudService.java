@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.UUID;
 
@@ -19,8 +18,8 @@ import static java.text.MessageFormat.format;
 
 @Slf4j
 @Getter
-public abstract class CrudService<E extends AuthEntity<I>, D extends DTOUpdate, I extends Serializable>
-        extends ReadOnlyService<E, D, I> {
+public abstract class CrudService<E extends AuthEntity, D extends DTOUpdate>
+        extends ReadOnlyService<E, D> {
 
     @Autowired
     private Message message;
@@ -34,25 +33,25 @@ public abstract class CrudService<E extends AuthEntity<I>, D extends DTOUpdate, 
 
         log.info("{}:insert(obj), inserido com o id {}", CLASS_NAME, result.getId());
 
-        return message.getSuccessInsertForId((UUID) result.getId());
+        return message.getSuccessInsertForId(result.getId());
     }
 
     protected D beforeInsert(D dto) {
         return dto;
     }
 
-    public Message update(I id, D dto) {
+    public Message update(UUID id, D dto) {
         log.info("{}:update(obj), iniciando atualizacao para o id {}", CLASS_NAME, id);
 
         super.findById(id);
 
-        dto.setId((UUID) id);
+        dto.setId(id);
         dto = beforeUpdate(dto);
         this.save(super.getConverter().toEntity(dto));
 
         log.info("{}:update(obj), atualizado o id {}", CLASS_NAME, id);
 
-        return message.getSuccessUpdateForId((UUID) id);
+        return message.getSuccessUpdateForId(id);
     }
 
     protected D beforeUpdate(D dto) {
@@ -69,7 +68,7 @@ public abstract class CrudService<E extends AuthEntity<I>, D extends DTOUpdate, 
         }
     }
 
-    public Message delete(I id) {
+    public Message delete(UUID id) {
         log.info("{}:delete(obj), iniciando exclusao para o id {}", CLASS_NAME, id);
 
         super.findById(id);
@@ -85,6 +84,6 @@ public abstract class CrudService<E extends AuthEntity<I>, D extends DTOUpdate, 
 
         log.info("{}:delete(obj), excluido o id {}", CLASS_NAME, id);
 
-        return message.getSuccessDeleteForId((UUID) id);
+        return message.getSuccessDeleteForId(id);
     }
 }

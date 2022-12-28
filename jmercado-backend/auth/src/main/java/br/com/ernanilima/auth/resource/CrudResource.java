@@ -18,16 +18,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.Serializable;
 import java.net.URI;
 
 @Slf4j
 @Getter
-public abstract class CrudResource<E extends AuthEntity<I>, D extends DTOUpdate, I extends Serializable>
-        extends ReadOnlyResource<E, D, I> {
+public abstract class CrudResource<E extends AuthEntity, D extends DTOUpdate>
+        extends ReadOnlyResource<E, D> {
 
-    public CrudService<E, D, I> getCrudService() {
-        return (CrudService<E, D, I>) super.getService();
+    public CrudService<E, D> getCrudService() {
+        return (CrudService<E, D>) super.getService();
     }
 
     @PostMapping
@@ -47,7 +46,7 @@ public abstract class CrudResource<E extends AuthEntity<I>, D extends DTOUpdate,
                                           @Validated(Put.class) @RequestBody D dto) {
         log.info("{}:put:update(obj)", this.getClass().getSimpleName());
 
-        Message result = getCrudService().update((I) obj.getId(), dto);
+        Message result = getCrudService().update(obj.getId(), dto);
 
         return ResponseEntity.ok().body(result);
     }
@@ -56,7 +55,7 @@ public abstract class CrudResource<E extends AuthEntity<I>, D extends DTOUpdate,
     public ResponseEntity<Message> delete(@Validated(Delete.class) AuthUUID obj) {
         log.info("{}:delete:delete(obj)", this.getClass().getSimpleName());
 
-        Message result = getCrudService().delete((I) obj.getId());
+        Message result = getCrudService().delete(obj.getId());
 
         return ResponseEntity.ok().body(result);
     }

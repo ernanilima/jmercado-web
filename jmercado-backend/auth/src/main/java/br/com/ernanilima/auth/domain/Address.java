@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "address")
-public class Address extends AuditingEntity implements AuthEntity<UUID>, Serializable {
+public class Address extends AuditingEntity implements AuthEntity, Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 

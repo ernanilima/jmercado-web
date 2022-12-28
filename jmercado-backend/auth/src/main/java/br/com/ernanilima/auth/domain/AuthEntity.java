@@ -1,9 +1,9 @@
 package br.com.ernanilima.auth.domain;
 
-import java.io.Serializable;
+import java.util.UUID;
 
-public interface AuthEntity<K extends Serializable> {
+public interface AuthEntity {
 
-    K getId();
+    UUID getId();
 
 }

@@ -1,6 +1,5 @@
 package br.com.ernanilima.auth.service.impl;
 
-import br.com.ernanilima.auth.converter.UserConverter;
 import br.com.ernanilima.auth.domain.User;
 import br.com.ernanilima.auth.dto.CompanyDTO;
 import br.com.ernanilima.auth.dto.UserDTO;
@@ -14,15 +13,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 @Service
 @AllArgsConstructor
-public class UserServiceImpl extends CrudService<User, UserDTO, UUID> implements UserService {
+public class UserServiceImpl extends CrudService<User, UserDTO> implements UserService {
 
     private final UserRepository userRepository;
-    private final UserConverter userConverter;
     private final CompanyService companyService;
 
     @Override
@@ -38,7 +35,7 @@ public class UserServiceImpl extends CrudService<User, UserDTO, UUID> implements
 
         log.info("{}:findByEmail(obj), localizado o usuario com o e-mail {}", CLASS_NAME, email);
 
-        return userConverter.toDTO(user);
+        return super.getConverter().toDTO(user);
     }
 
     @Override

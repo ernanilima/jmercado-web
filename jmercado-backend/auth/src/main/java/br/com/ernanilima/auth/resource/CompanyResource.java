@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
 @Slf4j
 @RestController
 @RequestMapping("/empresa")
-public class CompanyResource extends CrudResource<Company, CompanyDTO, UUID> {
+public class CompanyResource extends CrudResource<Company, CompanyDTO> {
 
     @Override
     public CompanyServiceImpl getService() {

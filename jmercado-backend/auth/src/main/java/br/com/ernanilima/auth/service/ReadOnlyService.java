@@ -9,23 +9,23 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Getter
-public abstract class ReadOnlyService<E extends AuthEntity<I>, D extends DTOUpdate, I extends Serializable> {
+public abstract class ReadOnlyService<E extends AuthEntity, D extends DTOUpdate> {
     protected final String CLASS_NAME = this.getClass().getSimpleName();
 
     @Autowired
-    private JpaRepository<E, I> repository;
+    private JpaRepository<E, UUID> repository;
 
     @Autowired
     private DTOConverter<E, D> converter;
 
-    public D findById(I id) {
+    public D findById(UUID id) {
         log.info("{}:findById(obj), iniciando busca para o id {}", CLASS_NAME, id);
 
         Optional<E> result = repository.findById(id);

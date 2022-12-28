@@ -12,12 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.UUID;
-
 @Slf4j
 @RestController
 @RequestMapping("/usuario")
-public class UserResource extends CrudResource<User, UserDTO, UUID> {
+public class UserResource extends CrudResource<User, UserDTO> {
 
     @Override
     public UserServiceImpl getService() {

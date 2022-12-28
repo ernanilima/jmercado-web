@@ -1,6 +1,5 @@
 package br.com.ernanilima.auth.service.impl;
 
-import br.com.ernanilima.auth.converter.CompanyConverter;
 import br.com.ernanilima.auth.domain.Company;
 import br.com.ernanilima.auth.dto.CompanyDTO;
 import br.com.ernanilima.auth.repository.CompanyRepository;
@@ -12,15 +11,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Slf4j
 @Service
 @AllArgsConstructor
-public class CompanyServiceImpl extends CrudService<Company, CompanyDTO, UUID> implements CompanyService {
+public class CompanyServiceImpl extends CrudService<Company, CompanyDTO> implements CompanyService {
 
     private final CompanyRepository companyRepository;
-    private final CompanyConverter companyConverter;
 
     @Override
     public CompanyDTO findByEin(String ein) {
@@ -35,6 +32,6 @@ public class CompanyServiceImpl extends CrudService<Company, CompanyDTO, UUID> i
 
         log.info("{}:findByEin(obj), localizado a empresa com o cnpj {}", CLASS_NAME, ein);
 
-        return companyConverter.toDTO(company);
+        return super.getConverter().toDTO(company);
     }
 }

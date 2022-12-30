@@ -23,6 +23,9 @@ dependencies {
     implementation 'org.liquibase:liquibase-core'
     runtimeOnly 'com.h2database:h2'
 
+    implementation group: 'org.reflections', name: 'reflections', version: '0.10.2'
+    implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.5'

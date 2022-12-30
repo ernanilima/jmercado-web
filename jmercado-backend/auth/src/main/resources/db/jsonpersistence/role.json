@@ -1,0 +1,80 @@
+[
+  {
+    "id": 9999,
+    "description": "Apenas para suporte",
+    "type": "ROLE"
+  },
+  {
+    "id": 9998,
+    "description": "Usuário do sistema",
+    "type": "ROLE"
+  },
+  {
+    "id": 1000,
+    "description": "Cadastros",
+    "type": "MENU",
+    "roles": [
+      {
+        "id": 1200,
+        "description": "Cadastros para o usuário",
+        "type": "MENU",
+        "roles": [
+          {
+            "id": 1201,
+            "description": "Cadastrar usuário",
+            "type": "MENU",
+            "roles": [
+              {
+                "id": 1202,
+                "description": "Buscar usuário",
+                "type": "ROLE"
+              },
+              {
+                "id": 1203,
+                "description": "Inserir usuário",
+                "type": "ROLE"
+              },
+              {
+                "id": 1204,
+                "description": "Alterar usuário",
+                "type": "ROLE"
+              },
+              {
+                "id": 1205,
+                "description": "Deleter usuário",
+                "type": "ROLE"
+              }
+            ]
+          },
+          {
+            "id": 1211,
+            "description": "Cadastrar grupo de usuário",
+            "type": "MENU",
+            "roles": [
+              {
+                "id": 1212,
+                "description": "Buscar grupo de usuário",
+                "type": "ROLE"
+              },
+              {
+                "id": 1213,
+                "description": "Inserir grupo de usuário",
+                "type": "ROLE"
+              },
+              {
+                "id": 1214,
+                "description": "Alterar grupo de usuário",
+                "type": "ROLE"
+              },
+              {
+                "id": 1215,
+                "description": "Deletar grupo de usuário",
+                "type": "ROLE"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

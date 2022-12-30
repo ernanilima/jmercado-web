@@ -8,11 +8,16 @@ import br.com.ernanilima.auth.service.CompanyService;
 import br.com.ernanilima.auth.service.CrudService;
 import br.com.ernanilima.auth.service.UserService;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
+import br.com.ernanilima.auth.utils.I18n;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+
+import static br.com.ernanilima.auth.utils.I18n.OBJECT_NOT_FOUND;
+import static br.com.ernanilima.auth.utils.I18n.getClassName;
+import static java.text.MessageFormat.format;
 
 @Slf4j
 @Service
@@ -30,7 +35,9 @@ public class UserServiceImpl extends CrudService<User, UserDTO> implements UserS
 
         User user = result.orElseThrow(() -> {
             log.error("{}:findByEmail(obj), erro ao buscar o usuario com o e-mail {}", CLASS_NAME, email);
-            return new ObjectNotFoundException("Não encontrado");
+            return new ObjectNotFoundException(
+                    format(I18n.getMessage(OBJECT_NOT_FOUND), getClassName(User.class.getSimpleName()))
+            );
         });
 
         log.info("{}:findByEmail(obj), localizado o usuario com o e-mail {}", CLASS_NAME, email);

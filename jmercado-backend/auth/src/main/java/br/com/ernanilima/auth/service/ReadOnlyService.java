@@ -4,20 +4,27 @@ import br.com.ernanilima.auth.converter.DTOConverter;
 import br.com.ernanilima.auth.domain.AuthEntity;
 import br.com.ernanilima.auth.dto.DTOUpdate;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
+import br.com.ernanilima.auth.utils.I18n;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static br.com.ernanilima.auth.utils.I18n.OBJECT_NOT_FOUND;
+import static br.com.ernanilima.auth.utils.I18n.getClassName;
+import static java.text.MessageFormat.format;
+
 @Slf4j
 @Getter
 public abstract class ReadOnlyService<E extends AuthEntity, D extends DTOUpdate> {
     protected final String CLASS_NAME = this.getClass().getSimpleName();
+    protected final Class<E> entity = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
     @Autowired
     private JpaRepository<E, UUID> repository;
@@ -32,7 +39,9 @@ public abstract class ReadOnlyService<E extends AuthEntity, D extends DTOUpdate>
 
         E entity = result.orElseThrow(() -> {
             log.error("{}:findById(obj), erro realizar busca para o id {}", CLASS_NAME, id);
-            return new ObjectNotFoundException("Não encontrado");
+            return new ObjectNotFoundException(
+                    format(I18n.getMessage(OBJECT_NOT_FOUND), getClassName(this.entity.getSimpleName()))
+            );
         });
 
         log.info("{}:findById(obj), localizado o id {}", CLASS_NAME, id);

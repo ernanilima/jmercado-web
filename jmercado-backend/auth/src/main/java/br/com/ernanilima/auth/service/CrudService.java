@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
-import java.lang.reflect.ParameterizedType;
 import java.util.UUID;
 
 import static br.com.ernanilima.auth.utils.I18n.*;
@@ -76,9 +75,8 @@ public abstract class CrudService<E extends AuthEntity, D extends DTOUpdate>
         try {
             super.getRepository().deleteById(id);
         } catch (DataIntegrityViolationException e) {
-            Class<E> entity = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
             throw new DataIntegrityException(
-                    format(I18n.getMessage(INTEGRITY_DELETE), getClassName(entity.getSimpleName()))
+                    format(I18n.getMessage(INTEGRITY_DELETE), getClassName(super.entity.getSimpleName()))
             );
         }
 

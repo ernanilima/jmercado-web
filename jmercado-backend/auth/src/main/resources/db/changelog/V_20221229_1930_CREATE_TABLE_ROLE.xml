@@ -23,4 +23,16 @@
             </column>
         </createTable>
     </changeSet>
+
+    <changeSet author="ernanilima" id="2">
+        <preConditions onFail="MARK_RAN" onFailMessage="A foreign key FK_ROLE_ROLE já existe">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FK_ROLE_ROLE" foreignKeyTableName="ROLE"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="ROLE" baseColumnNames="ID_DADDY"
+                                 constraintName="FK_ROLE_ROLE" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedTableName="ROLE" referencedColumnNames="ID_ROLE" validate="true"/>
+    </changeSet>
 </databaseChangeLog>

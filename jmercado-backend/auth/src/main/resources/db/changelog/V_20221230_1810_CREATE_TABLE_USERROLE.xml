@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet author="ernanilima" id="1">
+        <preConditions onFail="MARK_RAN" onFailMessage="A tabela USERROLE já existe">
+            <not>
+                <tableExists tableName="USERROLE"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USERROLE">
+            <column name="ID_USER" type="${uuid}">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USERROLE"/>
+            </column>
+            <column name="ID_ROLE" type="${int}">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_USERROLE"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="ernanilima" id="2">
+        <preConditions onFail="MARK_RAN" onFailMessage="A foreign key FK_USER_USERROLE já existe">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FK_USER_USERROLE" foreignKeyTableName="USERROLE"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="USERROLE" baseColumnNames="ID_USER"
+                                 constraintName="FK_USER_USERROLE" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID_USER" referencedTableName="USERS" validate="true"/>
+    </changeSet>
+
+    <changeSet author="ernanilima" id="3">
+        <preConditions onFail="MARK_RAN" onFailMessage="A foreign key FK_ROLE_USERROLE já existe">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FK_ROLE_USERROLE" foreignKeyTableName="USERROLE"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="USERROLE" baseColumnNames="ID_ROLE"
+                                 constraintName="FK_ROLE_USERROLE" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID_ROLE" referencedTableName="ROLE" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

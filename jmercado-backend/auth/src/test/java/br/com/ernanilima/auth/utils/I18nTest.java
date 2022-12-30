@@ -139,6 +139,12 @@ class I18nTest {
     }
 
     @Test
+    @DisplayName("Deve retornar a mensagem em pt_BR para VALUE_NOT_FOUND")
+    void getMessage_Must_Return_The_Message_In_PTBR_To_VALUE_NOT_FOUND() {
+        assertEquals("Não foi possível encontrar o valor `{0}`", getMessage(VALUE_NOT_FOUND));
+    }
+
+    @Test
     @DisplayName("Deve retornar a mensagem em pt_BR para INTEGRITY_INSERT_UPDATE")
     void getMessage_Must_Return_The_Message_In_PTBR_To_INTEGRITY_INSERT_UPDATE() {
         assertEquals("O valor do campo `{0}` já está sendo usado", getMessage(INTEGRITY_INSERT_UPDATE));

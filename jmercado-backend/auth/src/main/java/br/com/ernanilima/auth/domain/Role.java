@@ -25,7 +25,7 @@ public class Role implements Serializable {
     private int id;
 
     @Column(name = "id_daddy")
-    private int idDaddy;
+    private Integer idDaddy;
 
     @Column(nullable = false, unique = true)
     private String description;

@@ -8,6 +8,8 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -40,5 +42,12 @@ public class User extends AuditingEntity implements AuthEntity, Serializable {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
+
+    @Builder.Default
+    @ManyToMany
+    @JoinTable(name = "userrole", uniqueConstraints = @UniqueConstraint(columnNames = {"id_user", "id_role"}),
+            joinColumns = @JoinColumn(name = "id_user"),
+            inverseJoinColumns = @JoinColumn(name = "id_role"))
+    private Set<Role> roles = new HashSet<>();
 
 }

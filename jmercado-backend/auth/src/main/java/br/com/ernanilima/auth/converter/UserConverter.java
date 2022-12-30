@@ -18,6 +18,7 @@ public class UserConverter implements DTOConverter<User, UserDTO> {
                 .name(dto.getName())
                 .email(dto.getEmail())
                 .password(dto.getPassword())
+                .roles(dto.getRoles())
                 .company(companyConverter.toEntity(dto.getCompany()))
                 .build();
     }
@@ -29,6 +30,7 @@ public class UserConverter implements DTOConverter<User, UserDTO> {
                 .name(entity.getName())
                 .email(entity.getEmail())
                 .password(entity.getPassword())
+                .roles(entity.getRoles())
                 .company(companyConverter.toDTO(entity.getCompany()))
                 .build();
     }

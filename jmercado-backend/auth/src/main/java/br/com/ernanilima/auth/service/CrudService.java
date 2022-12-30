@@ -3,16 +3,19 @@ package br.com.ernanilima.auth.service;
 import br.com.ernanilima.auth.domain.AuthEntity;
 import br.com.ernanilima.auth.dto.DTOUpdate;
 import br.com.ernanilima.auth.service.exception.DataIntegrityException;
+import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
 import br.com.ernanilima.auth.service.message.Message;
 import br.com.ernanilima.auth.utils.I18n;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 
 import java.util.UUID;
 
 import static br.com.ernanilima.auth.utils.I18n.*;
+import static br.com.ernanilima.auth.utils.Utils.getLastValue;
 import static java.text.MessageFormat.format;
 
 @Slf4j
@@ -63,6 +66,10 @@ public abstract class CrudService<E extends AuthEntity, D extends DTOUpdate>
         } catch (DataIntegrityViolationException e) {
             throw new DataIntegrityException(
                     format(I18n.getMessage(INTEGRITY_INSERT_UPDATE), getFieldName(e))
+            );
+        } catch (JpaObjectRetrievalFailureException e) {
+            throw new ObjectNotFoundException(
+                    format(I18n.getMessage(VALUE_NOT_FOUND), getLastValue(e))
             );
         }
     }

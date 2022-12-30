@@ -24,6 +24,7 @@ public final class I18n {
     public static final String MESSAGE_SUCCESS_DELETE = "message.success.delete";
 
     public static final String OBJECT_NOT_FOUND = "object.not.found";
+    public static final String VALUE_NOT_FOUND = "value.not.found";
     public static final String INTEGRITY_INSERT_UPDATE = "integrity.insert.update";
     public static final String INTEGRITY_DELETE = "integrity.delete";
 

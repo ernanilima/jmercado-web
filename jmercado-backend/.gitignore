@@ -17,3 +17,5 @@ out/
 ### Banco de dados H2 ###
 *.mv.db
 *.trace.db
+
+**/private_jmercado.properties

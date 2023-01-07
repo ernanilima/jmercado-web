@@ -4,6 +4,7 @@ import br.com.ernanilima.auth.domain.User;
 import br.com.ernanilima.auth.dto.CompanyDTO;
 import br.com.ernanilima.auth.dto.UserDTO;
 import br.com.ernanilima.auth.repository.UserRepository;
+import br.com.ernanilima.auth.security.UserSpringSecurity;
 import br.com.ernanilima.auth.service.CompanyService;
 import br.com.ernanilima.auth.service.CrudService;
 import br.com.ernanilima.auth.service.UserService;
@@ -11,6 +12,7 @@ import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
 import br.com.ernanilima.auth.utils.I18n;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -26,32 +28,40 @@ public class UserServiceImpl extends CrudService<User, UserDTO> implements UserS
 
     private final UserRepository userRepository;
     private final CompanyService companyService;
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @Override
     public UserDTO findByEmail(String email) {
-        log.info("{}:findByEmail(obj), iniciando busca do usuario com o e-mail {}", CLASS_NAME, email);
+        User user = findByEmailAndCompanyEin(email, UserSpringSecurity.getAuthenticatedUser().getCompanyEin());
+        return super.getConverter().toDTO(user);
+    }
 
-        Optional<User> result = userRepository.findByEmail(email);
+    @Override
+    public User findByEmailAndCompanyEin(String email, String companyEin) {
+        log.info("{}:findByEmailAndCompanyEin(obj), iniciando busca do usuario com o e-mail {} para a empresa {}", CLASS_NAME, email, companyEin);
+
+        Optional<User> result = userRepository.findByEmailAndCompany_Ein(email, companyEin);
 
         User user = result.orElseThrow(() -> {
-            log.error("{}:findByEmail(obj), erro ao buscar o usuario com o e-mail {}", CLASS_NAME, email);
+            log.error("{}:findByEmailAndCompanyEin(obj), nao localizado o usuario com o e-mail {} para a empresa {}", CLASS_NAME, email, companyEin);
             return new ObjectNotFoundException(
                     format(I18n.getMessage(OBJECT_NOT_FOUND), getClassName(User.class.getSimpleName()))
             );
         });
 
-        log.info("{}:findByEmail(obj), localizado o usuario com o e-mail {}", CLASS_NAME, email);
+        log.info("{}:findByEmailAndCompanyEin(obj), localizado o usuario com o e-mail {} para a empresa {}", CLASS_NAME, email, companyEin);
 
-        return super.getConverter().toDTO(user);
+        return user;
     }
 
     @Override
     protected UserDTO beforeInsert(UserDTO dto) {
         log.info("{}:beforeInsert(obj), iniciado manipulacao antes da insercao do usuario", CLASS_NAME);
 
+        String password = passwordEncoder.encode(dto.getPassword());
         CompanyDTO companyDTO = companyService.findById(dto.getCompany().getId());
 
-        dto = dto.toBuilder().company(companyDTO).build();
+        dto = dto.toBuilder().password(password).company(companyDTO).build();
 
         log.info("{}:beforeInsert(obj), atualizado vinculacao antes da insercao do usuario", CLASS_NAME);
 

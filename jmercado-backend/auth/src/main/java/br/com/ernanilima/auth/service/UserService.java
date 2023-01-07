@@ -1,5 +1,6 @@
 package br.com.ernanilima.auth.service;
 
+import br.com.ernanilima.auth.domain.User;
 import br.com.ernanilima.auth.dto.UserDTO;
 import br.com.ernanilima.auth.service.message.Message;
 
@@ -11,6 +12,8 @@ public interface UserService {
     UserDTO findById(UUID id);
 
     UserDTO findByEmail(String email);
+
+    User findByEmailAndCompanyEin(String email, String companyEin);
 
     List<UserDTO> findAll();
 

@@ -27,13 +27,15 @@ public abstract class CrudService<E extends AuthEntity, D extends DTOUpdate>
     private Message message;
 
     public Message insert(D dto) {
-        log.info("{}:insert(obj), iniciando insercao", CLASS_NAME);
+        log.info("{}:insert(obj), iniciando insercao para {}", CLASS_NAME, ENTITY.getSimpleName());
 
         dto = beforeInsert(dto);
 
         E result = this.save(super.getConverter().toEntity(dto));
 
-        log.info("{}:insert(obj), inserido com o id {}", CLASS_NAME, result.getId());
+        log.info("{}:insert(obj), inserido {} com o id {}", CLASS_NAME, ENTITY.getSimpleName(), result.getId());
+
+        afterInsert(result, dto);
 
         return message.getSuccessInsertForId(result.getId());
     }
@@ -42,8 +44,11 @@ public abstract class CrudService<E extends AuthEntity, D extends DTOUpdate>
         return dto;
     }
 
+    protected void afterInsert(E entity, D dto) {
+    }
+
     public Message update(UUID id, D dto) {
-        log.info("{}:update(obj), iniciando atualizacao para o id {}", CLASS_NAME, id);
+        log.info("{}:update(obj), iniciando atualizacao de {} com o id {}", CLASS_NAME, ENTITY.getSimpleName(), id);
 
         super.findById(id);
 
@@ -51,7 +56,7 @@ public abstract class CrudService<E extends AuthEntity, D extends DTOUpdate>
         dto = beforeUpdate(dto);
         this.save(super.getConverter().toEntity(dto));
 
-        log.info("{}:update(obj), atualizado o id {}", CLASS_NAME, id);
+        log.info("{}:update(obj), atualizado {} com id {}", CLASS_NAME, ENTITY.getSimpleName(), id);
 
         return message.getSuccessUpdateForId(id);
     }
@@ -64,30 +69,30 @@ public abstract class CrudService<E extends AuthEntity, D extends DTOUpdate>
         try {
             return super.getRepository().save(entity);
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityException(
-                    format(I18n.getMessage(INTEGRITY_INSERT_UPDATE), getFieldName(e))
-            );
+            String message = format(I18n.getMessage(INTEGRITY_INSERT_UPDATE), getFieldName(e));
+            log.error("{}:save(obj), erro ao inserir/atualizar {}, mensagem {}", CLASS_NAME, ENTITY.getSimpleName(), message);
+            throw new DataIntegrityException(message);
         } catch (JpaObjectRetrievalFailureException e) {
-            throw new ObjectNotFoundException(
-                    format(I18n.getMessage(VALUE_NOT_FOUND), getLastValue(e))
-            );
+            String message = format(I18n.getMessage(VALUE_NOT_FOUND), getLastValue(e));
+            log.error("{}:save(obj), erro ao inserir/atualizar {}, mensagem {}", CLASS_NAME, ENTITY.getSimpleName(), message);
+            throw new ObjectNotFoundException(message);
         }
     }
 
     public Message delete(UUID id) {
-        log.info("{}:delete(obj), iniciando exclusao para o id {}", CLASS_NAME, id);
+        log.info("{}:delete(obj), iniciando exclusao de {} com o id {}", CLASS_NAME, ENTITY.getSimpleName(), id);
 
         super.findById(id);
 
         try {
             super.getRepository().deleteById(id);
         } catch (DataIntegrityViolationException e) {
-            throw new DataIntegrityException(
-                    format(I18n.getMessage(INTEGRITY_DELETE), getClassName(super.entity.getSimpleName()))
-            );
+            String message = format(I18n.getMessage(INTEGRITY_DELETE), getClassName(super.ENTITY.getSimpleName()));
+            log.error("{}:delete(obj), erro ao excluir {}, mensagem {}", CLASS_NAME, ENTITY.getSimpleName(), message);
+            throw new DataIntegrityException(message);
         }
 
-        log.info("{}:delete(obj), excluido o id {}", CLASS_NAME, id);
+        log.info("{}:delete(obj), excluido {} com id {}", CLASS_NAME, ENTITY.getSimpleName(), id);
 
         return message.getSuccessDeleteForId(id);
     }

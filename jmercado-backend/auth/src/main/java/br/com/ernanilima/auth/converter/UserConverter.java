@@ -1,6 +1,7 @@
 package br.com.ernanilima.auth.converter;
 
 import br.com.ernanilima.auth.domain.User;
+import br.com.ernanilima.auth.dto.UserBasicDTO;
 import br.com.ernanilima.auth.dto.UserDTO;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -29,9 +30,16 @@ public class UserConverter implements DTOConverter<User, UserDTO> {
                 .id(entity.getId())
                 .name(entity.getName())
                 .email(entity.getEmail())
-                .password(entity.getPassword())
                 .roles(entity.getRoles())
                 .company(companyConverter.toDTO(entity.getCompany()))
+                .build();
+    }
+
+    public UserDTO toDTO(UserBasicDTO dto) {
+        return UserDTO.builder()
+                .name(dto.getName())
+                .email(dto.getEmail())
+                .password(dto.getPassword())
                 .build();
     }
 }

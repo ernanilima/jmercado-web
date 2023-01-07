@@ -24,7 +24,7 @@ import static java.text.MessageFormat.format;
 @Getter
 public abstract class ReadOnlyService<E extends AuthEntity, D extends DTOUpdate> {
     protected final String CLASS_NAME = this.getClass().getSimpleName();
-    protected final Class<E> entity = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+    protected final Class<E> ENTITY = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
     @Autowired
     private JpaRepository<E, UUID> repository;
@@ -33,28 +33,27 @@ public abstract class ReadOnlyService<E extends AuthEntity, D extends DTOUpdate>
     private DTOConverter<E, D> converter;
 
     public D findById(UUID id) {
-        log.info("{}:findById(obj), iniciando busca para o id {}", CLASS_NAME, id);
+        log.info("{}:findById(obj), iniciando busca de {} para o id {}", CLASS_NAME, ENTITY.getSimpleName(), id);
 
         Optional<E> result = repository.findById(id);
 
         E entity = result.orElseThrow(() -> {
-            log.error("{}:findById(obj), erro realizar busca para o id {}", CLASS_NAME, id);
-            return new ObjectNotFoundException(
-                    format(I18n.getMessage(OBJECT_NOT_FOUND), getClassName(this.entity.getSimpleName()))
-            );
+            String message = format(I18n.getMessage(OBJECT_NOT_FOUND), getClassName(this.ENTITY.getSimpleName()));
+            log.error("{}:findById(obj), erro ao buscar {} com o id {}, mensagem {}", CLASS_NAME, ENTITY.getSimpleName(), id, message);
+            return new ObjectNotFoundException(message);
         });
 
-        log.info("{}:findById(obj), localizado o id {}", CLASS_NAME, id);
+        log.info("{}:findById(obj), localizado {} com o id {}", CLASS_NAME, ENTITY.getSimpleName(), id);
 
         return converter.toDTO(entity);
     }
 
     public List<D> findAll() {
-        log.info("{}:findAll(), iniciando busca", CLASS_NAME);
+        log.info("{}:findAll(), iniciando buscas de {}", CLASS_NAME, ENTITY.getSimpleName());
 
         List<E> results = repository.findAll();
 
-        log.info("{}:findAll(), localizado {} registro(s)", CLASS_NAME, results.size());
+        log.info("{}:findAll(), localizado {} com {} registro(s)", CLASS_NAME, ENTITY.getSimpleName(), results.size());
 
         return results.stream().map(converter::toDTO).collect(Collectors.toList());
     }

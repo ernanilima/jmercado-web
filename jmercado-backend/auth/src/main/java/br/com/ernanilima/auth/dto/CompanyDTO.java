@@ -45,6 +45,10 @@ public class CompanyDTO implements DTOUpdate, Serializable {
     @NotNull(message = "{empty.field}", groups = {Post.class, Put.class})
     private Set<ContactDTO> contacts;
 
+    @Valid
+    @NotNull(message = "{empty.field}", groups = {Post.class})
+    private UserBasicDTO user;
+
     @Override
     public void setId(UUID id) {
         this.id = id;

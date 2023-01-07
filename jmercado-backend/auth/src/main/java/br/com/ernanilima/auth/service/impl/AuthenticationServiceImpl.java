@@ -4,6 +4,7 @@ import br.com.ernanilima.auth.dto.auth.LoginDTO;
 import br.com.ernanilima.auth.dto.auth.TokenDTO;
 import br.com.ernanilima.auth.security.JwtUtils;
 import br.com.ernanilima.auth.service.AuthenticationService;
+import br.com.ernanilima.auth.service.exception.JwtAuthenticationException;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -12,6 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
+
+import static br.com.ernanilima.auth.utils.I18n.BAD_CREDENTIALS;
+import static br.com.ernanilima.auth.utils.I18n.getMessage;
 
 @Service
 @AllArgsConstructor
@@ -43,7 +47,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     .email(dto.getEmail())
                     .build();
         } catch (AuthenticationException e) {
-            throw new RuntimeException(e);
+            throw new JwtAuthenticationException(getMessage(BAD_CREDENTIALS));
         }
     }
 }

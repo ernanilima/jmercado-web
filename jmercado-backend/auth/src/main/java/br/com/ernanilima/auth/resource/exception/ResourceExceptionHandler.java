@@ -1,6 +1,7 @@
 package br.com.ernanilima.auth.resource.exception;
 
 import br.com.ernanilima.auth.service.exception.DataIntegrityException;
+import br.com.ernanilima.auth.service.exception.JwtAuthenticationException;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -106,5 +107,25 @@ public class ResourceExceptionHandler {
                 .build();
 
         return ResponseEntity.status(NOT_FOUND).body(standardError);
+    }
+
+    /**
+     * Erro para login nao realizado
+     */
+    @ExceptionHandler(JwtAuthenticationException.class)
+    public ResponseEntity<StandardError> jwtAuthenticationException(JwtAuthenticationException e,
+                                                                    HttpServletRequest r) {
+        log.warn("{}:jwtAuthenticationException(obj)", CLASS_NAME);
+
+        String errorTitle = getMessage(TTL_AUTHENTICATION_ERROR);
+        StandardError standardError = StandardError.builder()
+                .timestamp(ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT))
+                .status(UNAUTHORIZED.value())
+                .error(errorTitle)
+                .message(e.getMessage())
+                .path(r.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(UNAUTHORIZED).body(standardError);
     }
 }

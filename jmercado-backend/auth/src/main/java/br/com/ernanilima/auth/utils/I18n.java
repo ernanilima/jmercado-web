@@ -15,9 +15,12 @@ public final class I18n {
 
     public static final String TTL_VALIDATION = "title.validation";
     public static final String TTL_DATA_INTEGRITY = "title.data.integrity";
+    public static final String TTL_AUTHENTICATION_ERROR = "title.authentication.error";
     public static final String TTL_NOT_FOUND = "title.not.found";
 
     public static final String EXC_QUANTITY_OF_ERRORS = "exc.quantity.of.errors";
+
+    public static final String BAD_CREDENTIALS = "bad.credentials";
 
     public static final String MESSAGE_SUCCESS_INSERT = "message.success.insert";
     public static final String MESSAGE_SUCCESS_UPDATE = "message.success.update";

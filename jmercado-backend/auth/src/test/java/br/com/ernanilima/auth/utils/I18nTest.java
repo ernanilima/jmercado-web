@@ -103,6 +103,12 @@ class I18nTest {
     }
 
     @Test
+    @DisplayName("Deve retornar a mensagem em pt_BR para TTL_AUTHENTICATION_ERROR")
+    void getMessage_Must_Return_The_Message_In_PTBR_To_TTL_AUTHENTICATION_ERROR() {
+        assertEquals("Erro de autenticação", getMessage(TTL_AUTHENTICATION_ERROR));
+    }
+
+    @Test
     @DisplayName("Deve retornar a mensagem em pt_BR para TTL_NOT_FOUND")
     void getMessage_Must_Return_The_Message_In_PTBR_To_TTL_NOT_FOUND() {
         assertEquals("Não encontrado", getMessage(TTL_NOT_FOUND));
@@ -112,6 +118,12 @@ class I18nTest {
     @DisplayName("Deve retornar a mensagem em pt_BR para EXC_QUANTITY_OF_ERRORS")
     void getMessage_Must_Return_The_Message_In_PTBR_To_EXC_QUANTITY_OF_ERRORS() {
         assertEquals("Quantidade de erro(s): {0}", getMessage(EXC_QUANTITY_OF_ERRORS));
+    }
+
+    @Test
+    @DisplayName("Deve retornar a mensagem em pt_BR para BAD_CREDENTIALS")
+    void getMessage_Must_Return_The_Message_In_PTBR_To_BAD_CREDENTIALS() {
+        assertEquals("Credenciais inválidas, login não realizado", getMessage(BAD_CREDENTIALS));
     }
 
     @Test

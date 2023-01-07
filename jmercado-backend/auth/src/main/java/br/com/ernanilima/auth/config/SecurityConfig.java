@@ -1,6 +1,6 @@
 package br.com.ernanilima.auth.config;
 
-import br.com.ernanilima.auth.service.impl.UserDetailsServiceImpl;
+import br.com.ernanilima.auth.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +25,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig {
 
     private final Environment environment;
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserService userService;
 
     private static final String[] PUBLIC_PATHS = {"/", "/auth/**", "/h2-console/**"};
     private static final String[] PUBLIC_POST = {"/empresa"};
@@ -53,7 +53,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService);
+        authenticationProvider.setUserDetailsService(userService);
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder());
         return authenticationProvider;
     }

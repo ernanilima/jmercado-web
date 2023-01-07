@@ -3,18 +3,24 @@ package br.com.ernanilima.auth.service.impl;
 import br.com.ernanilima.auth.domain.User;
 import br.com.ernanilima.auth.dto.CompanyDTO;
 import br.com.ernanilima.auth.dto.UserDTO;
+import br.com.ernanilima.auth.dto.auth.LoginDTO;
 import br.com.ernanilima.auth.repository.UserRepository;
+import br.com.ernanilima.auth.security.JwtUtils;
 import br.com.ernanilima.auth.security.UserSpringSecurity;
 import br.com.ernanilima.auth.service.CompanyService;
 import br.com.ernanilima.auth.service.CrudService;
 import br.com.ernanilima.auth.service.UserService;
+import br.com.ernanilima.auth.service.exception.DecoderException;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
 import br.com.ernanilima.auth.utils.I18n;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.security.auth.login.CredentialException;
 import java.util.Optional;
 
 import static br.com.ernanilima.auth.utils.I18n.OBJECT_NOT_FOUND;
@@ -29,6 +35,7 @@ public class UserServiceImpl extends CrudService<User, UserDTO> implements UserS
     private final UserRepository userRepository;
     private final CompanyService companyService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtUtils jwtUtils;
 
     @Override
     public UserDTO findByEmail(String email) {
@@ -79,5 +86,25 @@ public class UserServiceImpl extends CrudService<User, UserDTO> implements UserS
         log.info("{}:beforeUpdate(obj), atualizado vinculacao antes da atualizar o usuario", CLASS_NAME);
 
         return dto;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String values) throws UsernameNotFoundException {
+        String CLASS_NAME = this.getClass().getSimpleName();
+        log.info("{}:loadUserByUsername(obj), iniciado login", CLASS_NAME);
+
+        LoginDTO dto;
+
+        try {
+            dto = jwtUtils.getDecoderAuthentication(values);
+        } catch (CredentialException e) {
+            log.error("{}:loadUserByUsername(obj), erro ao decodificar {}", CLASS_NAME, values);
+            throw new DecoderException("Dados invalidos para login");
+        }
+
+        User user = findByEmailAndCompanyEin(dto.getEmail(), dto.getEin());
+
+        log.info("{}:loadUserByUsername(obj), usuario localizado para login", CLASS_NAME);
+        return new UserSpringSecurity(user.getCompany().getEin(), user.getEmail(), user.getPassword(), user.getRoles());
     }
 }

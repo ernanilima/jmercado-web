@@ -115,6 +115,12 @@ class I18nTest {
     }
 
     @Test
+    @DisplayName("Deve retornar a mensagem em pt_BR para INVALID_TOKEN")
+    void getMessage_Must_Return_The_Message_In_PTBR_To_INVALID_TOKEN() {
+        assertEquals("Token inválido", getMessage(INVALID_TOKEN));
+    }
+
+    @Test
     @DisplayName("Deve retornar a mensagem em pt_BR para EXC_QUANTITY_OF_ERRORS")
     void getMessage_Must_Return_The_Message_In_PTBR_To_EXC_QUANTITY_OF_ERRORS() {
         assertEquals("Quantidade de erro(s): {0}", getMessage(EXC_QUANTITY_OF_ERRORS));

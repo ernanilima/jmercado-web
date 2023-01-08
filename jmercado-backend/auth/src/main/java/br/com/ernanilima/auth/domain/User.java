@@ -44,7 +44,7 @@ public class User extends AuditingEntity implements AuthEntity, Serializable {
     private Company company;
 
     @Builder.Default
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "userrole", uniqueConstraints = @UniqueConstraint(columnNames = {"id_user", "id_role"}),
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_role"))

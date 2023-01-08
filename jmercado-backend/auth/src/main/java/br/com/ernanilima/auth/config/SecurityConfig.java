@@ -1,5 +1,7 @@
 package br.com.ernanilima.auth.config;
 
+import br.com.ernanilima.auth.resource.exception.JwtAuthenticationEntryPoint;
+import br.com.ernanilima.auth.security.JwtAuthorizationFilter;
 import br.com.ernanilima.auth.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +15,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.Arrays;
 
@@ -26,6 +29,8 @@ public class SecurityConfig {
 
     private final Environment environment;
     private final UserService userService;
+    private final JwtAuthorizationFilter jwtAuthorizationFilter;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
     private static final String[] PUBLIC_PATHS = {"/", "/auth/**", "/h2-console/**"};
     private static final String[] PUBLIC_POST = {"/empresa"};
@@ -45,7 +50,13 @@ public class SecurityConfig {
         // garante que nenhuma sessão de usuário será criada
         http.sessionManagement().sessionCreationPolicy(STATELESS);
 
-        http.authenticationProvider(authenticationProvider());
+        http.authenticationProvider(authenticationProvider())
+                // adiciona um filtro de autorizacao
+                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        http.exceptionHandling()
+                // erro para nao autorizado
+                .authenticationEntryPoint(jwtAuthenticationEntryPoint);
 
         return http.build();
     }

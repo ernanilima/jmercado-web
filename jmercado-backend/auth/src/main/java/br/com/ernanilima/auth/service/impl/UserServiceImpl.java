@@ -3,6 +3,7 @@ package br.com.ernanilima.auth.service.impl;
 import br.com.ernanilima.auth.domain.User;
 import br.com.ernanilima.auth.dto.CompanyDTO;
 import br.com.ernanilima.auth.dto.UserDTO;
+import br.com.ernanilima.auth.dto.UserVerificationDTO;
 import br.com.ernanilima.auth.dto.auth.LoginDTO;
 import br.com.ernanilima.auth.repository.UserRepository;
 import br.com.ernanilima.auth.security.JwtUtils;
@@ -10,9 +11,11 @@ import br.com.ernanilima.auth.security.UserSpringSecurity;
 import br.com.ernanilima.auth.service.CompanyService;
 import br.com.ernanilima.auth.service.CrudService;
 import br.com.ernanilima.auth.service.UserService;
+import br.com.ernanilima.auth.service.UserVerificationService;
 import br.com.ernanilima.auth.service.exception.DecoderException;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
 import br.com.ernanilima.auth.utils.I18n;
+import liquibase.repackaged.org.apache.commons.lang3.RandomStringUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +36,7 @@ import static java.text.MessageFormat.format;
 public class UserServiceImpl extends CrudService<User, UserDTO> implements UserService {
 
     private final UserRepository userRepository;
+    private final UserVerificationService userVerificationService;
     private final CompanyService companyService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
@@ -73,6 +77,26 @@ public class UserServiceImpl extends CrudService<User, UserDTO> implements UserS
         log.info("{}:beforeInsert(obj), atualizado vinculacao antes da insercao do usuario", CLASS_NAME);
 
         return dto;
+    }
+
+    @Override
+    protected void afterInsert(User user, UserDTO dto) {
+        log.info("{}:afterInsert(obj), iniciando", CLASS_NAME);
+
+        insertUserVerification(user);
+    }
+
+    private void insertUserVerification(User user) {
+        log.info("{}:updateUserVerification(obj), iniciando", CLASS_NAME);
+
+        UserVerificationDTO userVerificationDTO = UserVerificationDTO.builder()
+                .user(super.getConverter().toDTO(user))
+                .securityLink(RandomStringUtils.randomAlphabetic(255))
+                .securityCode(RandomStringUtils.randomAlphabetic(6))
+                .minutesExpiration(30)
+                .build();
+
+        userVerificationService.insert(userVerificationDTO);
     }
 
     @Override

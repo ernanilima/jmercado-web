@@ -56,6 +56,8 @@ public class CompanyServiceImpl extends CrudService<Company, CompanyDTO> impleme
 
     @Override
     protected void afterInsert(Company company, CompanyDTO dto) {
+        log.info("{}:afterInsert(obj), iniciando", CLASS_NAME);
+
         UserDTO userDTO = userConverter.toDTO(dto.getUser());
 
         userDTO = userDTO.toBuilder()

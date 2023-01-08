@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+
+    <changeSet author="ernanilima" id="1">
+        <preConditions onFail="MARK_RAN" onFailMessage="A tabela USERVERIFICATION já existe">
+            <not>
+                <tableExists tableName="USERVERIFICATION"/>
+            </not>
+        </preConditions>
+        <createTable tableName="USERVERIFICATION">
+            <column name="ID_VERIFICATION" type="${uuid}">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_VERIFICATION_ID"/>
+            </column>
+            <column name="USER_ID" type="${uuid}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="SECURITY_LINK" type="${varchar_255}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="UK_USERVERIFIC_SECURITY_LINK"/>
+            </column>
+            <column name="SECURITY_CODE" type="${varchar_20}">
+                <constraints nullable="false" unique="true" uniqueConstraintName="UK_USERVERIFIC_SECURITY_CODE"/>
+            </column>
+            <column name="MINUTES_EXPIRATION" type="${int}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALID" type="${logical}">
+                <constraints nullable="false"/>
+            </column>
+
+            <column name="CREATED_BY" type="${varchar_50}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_DATE" type="${datetime}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MODIFIED_BY" type="${varchar_50}"/>
+            <column name="MODIFIED_DATE" type="${datetime}"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="ernanilima" id="2">
+        <preConditions onFail="MARK_RAN" onFailMessage="A foreign key FK_USER_USERVERIFICATION já existe">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="FK_USER_USERVERIFICATION" foreignKeyTableName="USERVERIFICATION"/>
+            </not>
+        </preConditions>
+        <addForeignKeyConstraint baseTableName="USERVERIFICATION" baseColumnNames="USER_ID"
+                                 constraintName="FK_USER_USERVERIFICATION" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="ID_USER" referencedTableName="USERS" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

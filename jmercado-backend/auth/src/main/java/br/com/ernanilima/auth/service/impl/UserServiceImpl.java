@@ -15,7 +15,6 @@ import br.com.ernanilima.auth.service.UserVerificationService;
 import br.com.ernanilima.auth.service.exception.DecoderException;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
 import br.com.ernanilima.auth.utils.I18n;
-import liquibase.repackaged.org.apache.commons.lang3.RandomStringUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -83,17 +82,8 @@ public class UserServiceImpl extends CrudService<User, UserDTO> implements UserS
     protected void afterInsert(User user, UserDTO dto) {
         log.info("{}:afterInsert(obj), iniciando", CLASS_NAME);
 
-        insertUserVerification(user);
-    }
-
-    private void insertUserVerification(User user) {
-        log.info("{}:updateUserVerification(obj), iniciando", CLASS_NAME);
-
         UserVerificationDTO userVerificationDTO = UserVerificationDTO.builder()
                 .user(super.getConverter().toDTO(user))
-                .securityLink(RandomStringUtils.randomAlphabetic(255))
-                .securityCode(RandomStringUtils.randomAlphabetic(6))
-                .minutesExpiration(30)
                 .build();
 
         userVerificationService.insert(userVerificationDTO);

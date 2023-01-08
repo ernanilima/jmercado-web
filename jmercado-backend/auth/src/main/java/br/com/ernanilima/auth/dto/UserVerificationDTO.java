@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serializable;
 import java.util.UUID;
 
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @Getter
 public class UserVerificationDTO extends SecurityVerificationDTO implements DTOUpdate, Serializable {

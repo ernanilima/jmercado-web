@@ -6,6 +6,8 @@ import br.com.ernanilima.auth.repository.UserVerificationRepository;
 import br.com.ernanilima.auth.service.CrudService;
 import br.com.ernanilima.auth.service.UserVerificationService;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
+import br.com.ernanilima.auth.service.exception.VerificationException;
+import br.com.ernanilima.auth.service.message.Message;
 import br.com.ernanilima.auth.utils.I18n;
 import liquibase.repackaged.org.apache.commons.lang3.RandomStringUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +15,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
 import java.util.Optional;
 
-import static br.com.ernanilima.auth.utils.I18n.OBJECT_NOT_FOUND;
-import static br.com.ernanilima.auth.utils.I18n.getClassName;
+import static br.com.ernanilima.auth.utils.I18n.*;
 import static java.text.MessageFormat.format;
 
 @Slf4j
@@ -68,5 +70,20 @@ public class UserVerificationServiceImpl extends CrudService<UserVerification, U
         log.info("{}:beforeInsert(obj), atualizado dados antes da insercao da verificacao do usuario", CLASS_NAME);
 
         return dto;
+    }
+
+    @Override
+    public Message update(String securityLink, UserVerificationDTO dto) {
+        log.info("{}:update(obj), iniciando a verificacao para atualizacao de {}", CLASS_NAME, ENTITY.getSimpleName());
+
+        UserVerificationDTO userVerificationDTO = findBySecurityLink(dto.getSecurityLink());
+
+        if (Objects.equals(dto.getSecurityCode(), userVerificationDTO.getSecurityCode())) {
+            log.info("{}:update(obj), verificacao realizada para atualizacao do usuario com o e-mail {}", CLASS_NAME, userVerificationDTO.getUser().getEmail());
+            return super.update(userVerificationDTO.getId(), userVerificationDTO.toBuilder().valid(Boolean.TRUE).build());
+        }
+
+        log.error("{}:update(obj), verificacao nao realizada com sucesso para o usuario com o e-mail {}", CLASS_NAME, userVerificationDTO.getUser().getEmail());
+        throw new VerificationException(I18n.getMessage(VERIFICATION_NOT_SUCCESSFUL));
     }
 }

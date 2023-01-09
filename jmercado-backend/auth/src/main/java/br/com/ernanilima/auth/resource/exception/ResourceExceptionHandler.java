@@ -3,6 +3,7 @@ package br.com.ernanilima.auth.resource.exception;
 import br.com.ernanilima.auth.service.exception.DataIntegrityException;
 import br.com.ernanilima.auth.service.exception.JwtAuthenticationException;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
+import br.com.ernanilima.auth.service.exception.VerificationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindException;
@@ -118,6 +119,26 @@ public class ResourceExceptionHandler {
         log.warn("{}:jwtAuthenticationException(obj)", CLASS_NAME);
 
         String errorTitle = getMessage(TTL_AUTHENTICATION_ERROR);
+        StandardError standardError = StandardError.builder()
+                .timestamp(ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT))
+                .status(UNAUTHORIZED.value())
+                .error(errorTitle)
+                .message(e.getMessage())
+                .path(r.getRequestURI())
+                .build();
+
+        return ResponseEntity.status(UNAUTHORIZED).body(standardError);
+    }
+
+    /**
+     * Erro para verificacao
+     */
+    @ExceptionHandler(VerificationException.class)
+    public ResponseEntity<StandardError> verificationException(VerificationException e,
+                                                               HttpServletRequest r) {
+        log.warn("{}:verificationException(obj)", CLASS_NAME);
+
+        String errorTitle = getMessage(TTL_VERIFICATION);
         StandardError standardError = StandardError.builder()
                 .timestamp(ZonedDateTime.now().format(DateTimeFormatter.ISO_INSTANT))
                 .status(UNAUTHORIZED.value())

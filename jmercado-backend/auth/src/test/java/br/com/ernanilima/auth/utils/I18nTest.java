@@ -70,6 +70,9 @@ class I18nTest {
         assertEquals("IBGE", getFieldName("code"));
         assertEquals("DDD", getFieldName("areacode"));
         assertEquals("Contatos", getFieldName("contacts"));
+        assertEquals("Permissões", getFieldName("roles"));
+        assertEquals("Link", getFieldName("securitylink"));
+        assertEquals("Código", getFieldName("securitycode"));
     }
 
     @Test
@@ -116,6 +119,12 @@ class I18nTest {
     }
 
     @Test
+    @DisplayName("Deve retornar a mensagem em pt_BR para TTL_VERIFICATION")
+    void getMessage_Must_Return_The_Message_In_PTBR_To_TTL_VERIFICATION() {
+        assertEquals("Verificação", getMessage(TTL_VERIFICATION));
+    }
+
+    @Test
     @DisplayName("Deve retornar a mensagem em pt_BR para INVALID_TOKEN")
     void getMessage_Must_Return_The_Message_In_PTBR_To_INVALID_TOKEN() {
         assertEquals("Token inválido", getMessage(INVALID_TOKEN));
@@ -149,6 +158,12 @@ class I18nTest {
     @DisplayName("Deve retornar a mensagem em pt_BR para MESSAGE_SUCCESS_DELETE")
     void getMessage_Must_Return_The_Message_In_PTBR_To_MESSAGE_SUCCESS_DELETE() {
         assertEquals("Registro excluido com sucesso", getMessage(MESSAGE_SUCCESS_DELETE));
+    }
+
+    @Test
+    @DisplayName("Deve retornar a mensagem em pt_BR para VERIFICATION_NOT_SUCCESSFUL")
+    void getMessage_Must_Return_The_Message_In_PTBR_To_VERIFICATION_NOT_SUCCESSFUL() {
+        assertEquals("Verificação sem sucesso, tente novamente", getMessage(VERIFICATION_NOT_SUCCESSFUL));
     }
 
     @Test

@@ -11,6 +11,8 @@ public interface UserVerificationService {
 
     Message insert(UserVerificationDTO dto);
 
+    Message update(String securityLink, UserVerificationDTO dto);
+
     Message update(UUID id, UserVerificationDTO dto);
 
 }

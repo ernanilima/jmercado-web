@@ -30,6 +30,7 @@ public class UserVerificationConverter implements DTOConverter<UserVerification,
                 .user(userConverter.toDTO(entity.getUser()))
                 .securityLink(entity.getSecurityLink())
                 .securityCode(entity.getSecurityCode())
+                .minutesExpiration(entity.getMinutesExpiration())
                 .valid(entity.isValid())
                 .build();
     }

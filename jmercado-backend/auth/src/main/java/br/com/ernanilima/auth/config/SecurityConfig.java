@@ -32,7 +32,7 @@ public class SecurityConfig {
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
-    private static final String[] PUBLIC_PATHS = {"/", "/auth/**", "/h2-console/**"};
+    private static final String[] PUBLIC_PATHS = {"/", "/auth/**", "/usuario-verificacao/**", "/h2-console/**"};
     private static final String[] PUBLIC_POST = {"/empresa"};
 
     @Bean

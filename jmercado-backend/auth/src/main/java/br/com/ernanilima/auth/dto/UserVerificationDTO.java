@@ -1,6 +1,7 @@
 package br.com.ernanilima.auth.dto;
 
 import br.com.ernanilima.auth.dto.jkafka.SecurityVerificationDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -14,6 +15,7 @@ import java.util.UUID;
 public class UserVerificationDTO extends SecurityVerificationDTO implements DTOUpdate, Serializable {
 
     private UUID id;
+    @JsonIgnoreProperties({"company", "roles"})
     private UserDTO user;
     private int minutesExpiration;
     private boolean valid;

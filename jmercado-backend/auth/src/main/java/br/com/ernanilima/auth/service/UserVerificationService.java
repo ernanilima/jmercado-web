@@ -7,6 +7,8 @@ import java.util.UUID;
 
 public interface UserVerificationService {
 
+    UserVerificationDTO findBySecurityLink(String securityLink);
+
     Message insert(UserVerificationDTO dto);
 
     Message update(UUID id, UserVerificationDTO dto);

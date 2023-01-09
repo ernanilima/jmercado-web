@@ -85,6 +85,7 @@ class I18nTest {
         assertEquals("O campo deve ter entre {min} e {max} caracteres", getMessage("length.field"));
         assertEquals("O campo deve ter {min} caracteres", getMessage("length.min.field"));
         assertEquals("O campo deve ter no máximo {max} caracteres", getMessage("length.max.field"));
+        assertEquals("Caracteres inválidos", getMessage("length.security.field"));
         assertEquals("Formato de CNPJ inválido", getMessage("invalid.ein"));
         assertEquals("Formato de e-mail inválido", getMessage("invalid.email"));
         assertEquals("ID inválido", getMessage("invalid.uuid"));

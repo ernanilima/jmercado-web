@@ -80,7 +80,7 @@ public class UserVerificationServiceImpl extends CrudService<UserVerification, U
 
         if (Objects.equals(dto.getSecurityCode(), userVerificationDTO.getSecurityCode())) {
             log.info("{}:update(obj), verificacao realizada para atualizacao do usuario com o e-mail {}", CLASS_NAME, userVerificationDTO.getUser().getEmail());
-            return super.update(userVerificationDTO.getId(), userVerificationDTO.toBuilder().valid(Boolean.TRUE).build());
+            return super.update(userVerificationDTO.getId(), userVerificationDTO.toBuilder().checked(Boolean.TRUE).build());
         }
 
         log.error("{}:update(obj), verificacao nao realizada com sucesso para o usuario com o e-mail {}", CLASS_NAME, userVerificationDTO.getUser().getEmail());

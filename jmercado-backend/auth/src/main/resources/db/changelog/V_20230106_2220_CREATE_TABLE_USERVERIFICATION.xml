@@ -26,7 +26,7 @@
             <column name="MINUTES_EXPIRATION" type="${int}">
                 <constraints nullable="false"/>
             </column>
-            <column name="VALID" type="${logical}">
+            <column name="CHECKED" type="${logical}">
                 <constraints nullable="false"/>
             </column>
 

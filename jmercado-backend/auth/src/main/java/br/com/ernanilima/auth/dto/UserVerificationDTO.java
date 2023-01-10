@@ -18,7 +18,7 @@ public class UserVerificationDTO extends SecurityVerificationDTO implements DTOU
     @JsonIgnoreProperties({"company", "roles"})
     private UserDTO user;
     private int minutesExpiration;
-    private boolean valid;
+    private boolean checked;
 
     @Override
     public void setId(UUID id) {

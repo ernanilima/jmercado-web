@@ -40,6 +40,6 @@ public class UserVerification extends AuditingEntity implements AuthEntity, Seri
     private int minutesExpiration;
 
     @Column(nullable = false)
-    private boolean valid;
+    private boolean checked;
 
 }

@@ -19,7 +19,7 @@ public class UserVerificationConverter implements DTOConverter<UserVerification,
                 .securityLink(dto.getSecurityLink())
                 .securityCode(dto.getSecurityCode())
                 .minutesExpiration(dto.getMinutesExpiration())
-                .valid(dto.isValid())
+                .checked(dto.isChecked())
                 .build();
     }
 
@@ -31,7 +31,7 @@ public class UserVerificationConverter implements DTOConverter<UserVerification,
                 .securityLink(entity.getSecurityLink())
                 .securityCode(entity.getSecurityCode())
                 .minutesExpiration(entity.getMinutesExpiration())
-                .valid(entity.isValid())
+                .checked(entity.isChecked())
                 .build();
     }
 }

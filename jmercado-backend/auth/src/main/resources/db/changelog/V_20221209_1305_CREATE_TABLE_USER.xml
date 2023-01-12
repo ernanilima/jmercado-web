@@ -28,9 +28,13 @@
                 <constraints nullable="false"/>
             </column>
 
-            <column name="CREATED_BY" type="${varchar_50}"/>
-            <column name="CREATED_DATE" type="${datetime}"/>
-            <column name="MODIFIED_BY" type="${varchar_50}"/>
+            <column name="CREATED_BY" type="${uuid}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_DATE" type="${datetime}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MODIFIED_BY" type="${uuid}"/>
             <column name="MODIFIED_DATE" type="${datetime}"/>
         </createTable>
     </changeSet>

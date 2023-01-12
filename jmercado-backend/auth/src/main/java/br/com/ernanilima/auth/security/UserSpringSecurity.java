@@ -1,7 +1,11 @@
 package br.com.ernanilima.auth.security;
 
+import br.com.ernanilima.auth.core.StandardUsers;
 import br.com.ernanilima.auth.domain.Role;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,29 +14,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.io.Serial;
 import java.util.Collection;
 import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-@NoArgsConstructor
+@Builder
 public class UserSpringSecurity implements UserDetails {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    @Getter
+    private UUID key;
+    @Getter
     private String companyEin;
     private String email;
     private String password;
-    private Collection<? extends GrantedAuthority> authorities;
-
-    public UserSpringSecurity(String companyEin, String email, String password, Set<Role> authorities) {
-        this.companyEin = companyEin;
-        this.email = email;
-        this.password = password;
-        this.authorities = authorities.stream().map(x -> new SimpleGrantedAuthority(String.valueOf(x.getId())))
-                .collect(Collectors.toList());
-    }
-
-    public String getCompanyEin() {
-        return companyEin;
-    }
+    private Set<Role> authorities;
 
     @Override
     public String getUsername() {
@@ -46,7 +42,8 @@ public class UserSpringSecurity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+        return authorities.stream().map(x -> new SimpleGrantedAuthority(String.valueOf(x.getId())))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -75,6 +72,14 @@ public class UserSpringSecurity implements UserDetails {
      * @return UserSpringSecurity
      */
     public static UserSpringSecurity getAuthenticatedUser() {
-        return (UserSpringSecurity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return UserSpringSecurity.builder()
+                    .key(StandardUsers.UNAUTHENTICATED_UUID)
+                    .build();
+        }
+
+        return (UserSpringSecurity) authentication.getPrincipal();
     }
 }

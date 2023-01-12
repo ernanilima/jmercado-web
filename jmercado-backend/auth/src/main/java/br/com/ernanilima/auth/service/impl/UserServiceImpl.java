@@ -119,6 +119,12 @@ public class UserServiceImpl extends CrudService<User, UserDTO> implements UserS
         User user = findByEmailAndCompanyEin(dto.getEmail(), dto.getEin());
 
         log.info("{}:loadUserByUsername(obj), usuario localizado para login", CLASS_NAME);
-        return new UserSpringSecurity(user.getCompany().getEin(), user.getEmail(), user.getPassword(), user.getRoles());
+        return UserSpringSecurity.builder()
+                .key(user.getId())
+                .companyEin(user.getCompany().getEin())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .authorities(user.getRoles())
+                .build();
     }
 }

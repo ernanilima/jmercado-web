@@ -2,6 +2,7 @@ package br.com.ernanilima.auth.domain;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
@@ -12,6 +13,7 @@ import javax.persistence.Column;
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -20,16 +22,18 @@ import java.time.LocalDateTime;
 public abstract class AuditingEntity {
 
     @CreatedBy
+    @Type(type = "uuid-char")
     @Column(name = "created_by", nullable = false, updatable = false)
-    private String createdBy;
+    private UUID createdBy;
 
     @CreatedDate
     @Column(name = "created_date", nullable = false, updatable = false)
     private LocalDateTime createdDate;
 
     @LastModifiedBy
+    @Type(type = "uuid-char")
     @Column(name = "modified_by", insertable = false)
-    private String lastModifiedBy;
+    private UUID lastModifiedBy;
 
     @LastModifiedDate
     @Column(name = "modified_date", insertable = false)

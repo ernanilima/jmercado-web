@@ -104,9 +104,6 @@ public class UserServiceImpl extends CrudService<User, UserDTO> implements UserS
 
     @Override
     public UserDetails loadUserByUsername(String values) throws UsernameNotFoundException {
-        String CLASS_NAME = this.getClass().getSimpleName();
-        log.info("{}:loadUserByUsername(obj), iniciado login", CLASS_NAME);
-
         LoginDTO dto;
 
         try {
@@ -118,7 +115,6 @@ public class UserServiceImpl extends CrudService<User, UserDTO> implements UserS
 
         User user = findByEmailAndCompanyEin(dto.getEmail(), dto.getEin());
 
-        log.info("{}:loadUserByUsername(obj), usuario localizado para login", CLASS_NAME);
         return UserSpringSecurity.builder()
                 .key(user.getId())
                 .companyEin(user.getCompany().getEin())

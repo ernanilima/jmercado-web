@@ -1,42 +1,6 @@
-plugins {
-    id 'java'
-    id 'war'
-    id 'org.springframework.boot' version '2.7.6'
-    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-}
-
-group = 'br.com.ernanilima'
-version = '0.1'
-sourceCompatibility = '17'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation group: 'com.auth0', name: 'java-jwt', version: '4.2.0'
     implementation 'org.springframework.boot:spring-boot-starter-security'
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    implementation 'org.liquibase:liquibase-core'
-    runtimeOnly 'com.h2database:h2'
-
-    implementation group: 'org.reflections', name: 'reflections', version: '0.10.2'
-    implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
-
-    compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.projectlombok:lombok'
-    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.5'
-
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }

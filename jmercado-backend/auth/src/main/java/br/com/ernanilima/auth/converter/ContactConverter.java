@@ -39,7 +39,7 @@ public class ContactConverter implements DTOConverter<Contact, ContactDTO> {
                 .build();
     }
 
-    private UUID getIdJoin(ContactDTO dto) {
+    protected UUID getIdJoin(ContactDTO dto) {
         if (Objects.isNull(dto.getId()))
             return null;
 

@@ -2,6 +2,7 @@ package br.com.ernanilima.auth;
 
 import br.com.ernanilima.auth.core.autopersistence.JsonPersistenceService;
 import lombok.AllArgsConstructor;
+import lombok.Generated;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +14,7 @@ public class AuthApplication implements ApplicationRunner {
 
     private final JsonPersistenceService jsonService;
 
+    @Generated
     public static void main(String[] args) {
         SpringApplication.run(AuthApplication.class, args);
     }

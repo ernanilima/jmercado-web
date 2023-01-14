@@ -1,0 +1,1 @@
+INSERT INTO company (id_company, company_name, trading_name, ein, address_id, created_by, created_date) VALUES ('7c0aa10d-9d62-4993-a086-2fcb8516aa52', 'Empersa1 LTDA', 'Empresa1 Muito Forte', '00000000000191', 'f266ae81-dc50-4ff4-8b30-fbb3626d0423', 'f134a511-d4bb-44a5-8bf9-bc9e73f5beda', '2023-1-1 10:20:30');

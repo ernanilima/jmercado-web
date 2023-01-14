@@ -1,0 +1,1 @@
+INSERT INTO users (id_user, name, email, password, company_id, created_by, created_date) VALUES ('9e38510d-41fa-438b-8676-d143c4bf9296', 'Nome do usuario1', 'email.user1@email.com', 'password', '7c0aa10d-9d62-4993-a086-2fcb8516aa52', 'f134a511-d4bb-44a5-8bf9-bc9e73f5beda', '2023-1-1 10:20:30');

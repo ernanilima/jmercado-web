@@ -6,6 +6,7 @@ import br.com.ernanilima.auth.domain.enums.RoleENUM;
 import br.com.ernanilima.auth.dto.UserBasicDTO;
 import br.com.ernanilima.auth.dto.UserDTO;
 import br.com.ernanilima.auth.dto.UserVerificationDTO;
+import br.com.ernanilima.auth.security.UserSpringSecurity;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -64,6 +65,17 @@ public final class UserBuilder {
                 .securityCode("Z1x2W3")
                 .minutesExpiration(30)
                 .checked(Boolean.FALSE)
+                .build();
+    }
+
+    public static UserSpringSecurity createUserSpringSecurity() {
+        User user = UserBuilder.create();
+        return UserSpringSecurity.builder()
+                .key(user.getId())
+                .companyEin(user.getCompany().getEin())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .authorities(user.getRoles())
                 .build();
     }
 }

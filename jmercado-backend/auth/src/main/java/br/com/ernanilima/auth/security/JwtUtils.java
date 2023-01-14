@@ -40,7 +40,7 @@ public class JwtUtils {
         return new UsernamePasswordAuthenticationToken(emailAndParameter, dto.getPassword());
     }
 
-    private String getEncoderAuthentication(String email, String companyEin) {
+    public static String getEncoderAuthentication(String email, String companyEin) {
         return String.format("%s%s%s", email, "-", companyEin);
     }
 

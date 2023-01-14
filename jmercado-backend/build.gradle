@@ -7,6 +7,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'war'
     apply plugin: 'io.spring.dependency-management'
+    apply from: "$rootDir/jacoco.gradle"
 
     group = 'br.com.ernanilima'
     version = '0.1'

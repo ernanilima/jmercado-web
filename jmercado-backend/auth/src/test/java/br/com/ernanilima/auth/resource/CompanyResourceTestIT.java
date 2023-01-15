@@ -3,7 +3,7 @@ package br.com.ernanilima.auth.resource;
 import br.com.ernanilima.auth.AuthTestIT;
 import br.com.ernanilima.auth.config.annotation.IntegrationTest;
 import com.google.gson.Gson;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
@@ -28,20 +28,27 @@ class CompanyResourceTestIT extends AuthTestIT {
     @Autowired
     private Gson gson;
 
-    private String token;
+    @Test
+    @DisplayName("Deve retornar uma empresa buscada pelo id")
+    void findById_Must_Return_A_Company_Searched_For_By_Id() throws Exception {
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get("/empresa/{id}", "7c0aa10d-9d62-4993-a086-2fcb8516aa52")
+                        .contentType(APPLICATION_JSON)
+                        .header("Authorization", super.getUserToken()))
 
-    @BeforeEach
-    void setup() {
-        token = super.getUserToken();
+                // deve retornar o Status 200
+                .andExpect(status().isOk());
     }
 
     @Test
-    void findByEin() throws Exception {
+    @DisplayName("Deve retornar a empresa buscada pelo cnpj")
+    void findByEin_Must_Return_The_Company_Sought_By_EIN() throws Exception {
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .get("/empresa/cnpj/{ein}", "00000000000191")
                         .contentType(APPLICATION_JSON)
-                        .header("Authorization", token))
+                        .header("Authorization", super.getUserToken()))
 
                 // deve retornar o Status 200
                 .andExpect(status().isOk());

@@ -34,12 +34,12 @@ public class Company extends AuditingEntity implements AuthEntity, Serializable 
     @Column(length = 20, unique = true, nullable = false)
     private String ein;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "address_id", referencedColumnName = "id_address")
     private Address address;
 
     @Builder.Default
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "idJoin")
     private Set<Contact> contacts = new HashSet<>();
 

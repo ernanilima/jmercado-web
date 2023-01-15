@@ -1,5 +1,6 @@
 package br.com.ernanilima.auth.lombok;
 
+import br.com.ernanilima.auth.config.annotation.UnitTest;
 import br.com.ernanilima.auth.domain.*;
 import br.com.ernanilima.auth.dto.*;
 import br.com.ernanilima.auth.dto.auth.LoginDTO;
@@ -16,6 +17,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@UnitTest
 public class ToStringTest {
 
     private UUID randomUuid;

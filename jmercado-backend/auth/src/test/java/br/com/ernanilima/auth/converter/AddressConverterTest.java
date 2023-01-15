@@ -1,16 +1,15 @@
 package br.com.ernanilima.auth.converter;
 
 import br.com.ernanilima.auth.builder.AddressBuilder;
+import br.com.ernanilima.auth.config.annotation.UnitTest;
 import br.com.ernanilima.auth.domain.Address;
 import br.com.ernanilima.auth.dto.AddressDTO;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
+@UnitTest
 class AddressConverterTest {
 
     @InjectMocks

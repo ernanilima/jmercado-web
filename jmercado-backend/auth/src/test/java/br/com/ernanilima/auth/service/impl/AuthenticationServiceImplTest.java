@@ -1,6 +1,7 @@
 package br.com.ernanilima.auth.service.impl;
 
 import br.com.ernanilima.auth.builder.AuthenticationBuilder;
+import br.com.ernanilima.auth.config.annotation.UnitTest;
 import br.com.ernanilima.auth.dto.auth.LoginDTO;
 import br.com.ernanilima.auth.dto.auth.TokenDTO;
 import br.com.ernanilima.auth.security.JwtUtils;
@@ -8,10 +9,8 @@ import br.com.ernanilima.auth.service.exception.JwtAuthenticationException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
@@ -27,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@UnitTest
 class AuthenticationServiceImplTest {
 
     @InjectMocks

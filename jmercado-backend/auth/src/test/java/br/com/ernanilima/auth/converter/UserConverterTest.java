@@ -1,21 +1,20 @@
 package br.com.ernanilima.auth.converter;
 
 import br.com.ernanilima.auth.builder.UserBuilder;
+import br.com.ernanilima.auth.config.annotation.UnitTest;
 import br.com.ernanilima.auth.domain.User;
 import br.com.ernanilima.auth.dto.UserBasicDTO;
 import br.com.ernanilima.auth.dto.UserDTO;
 import br.com.ernanilima.auth.repository.ContactRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-@ExtendWith(MockitoExtension.class)
+@UnitTest
 class UserConverterTest {
 
     @InjectMocks

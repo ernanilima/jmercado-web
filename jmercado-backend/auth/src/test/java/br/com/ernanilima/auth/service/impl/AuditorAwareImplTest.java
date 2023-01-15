@@ -1,6 +1,7 @@
 package br.com.ernanilima.auth.service.impl;
 
 import br.com.ernanilima.auth.builder.UserBuilder;
+import br.com.ernanilima.auth.config.annotation.UnitTest;
 import br.com.ernanilima.auth.core.StandardUsers;
 import br.com.ernanilima.auth.security.UserSpringSecurity;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@UnitTest
 class AuditorAwareImplTest {
 
     private AuditorAwareImpl auditorAwareMock;

@@ -1,6 +1,7 @@
 package br.com.ernanilima.auth.converter;
 
 import br.com.ernanilima.auth.builder.CompanyBuilder;
+import br.com.ernanilima.auth.config.annotation.UnitTest;
 import br.com.ernanilima.auth.domain.Company;
 import br.com.ernanilima.auth.domain.Contact;
 import br.com.ernanilima.auth.dto.CompanyDTO;
@@ -8,14 +9,12 @@ import br.com.ernanilima.auth.dto.ContactDTO;
 import br.com.ernanilima.auth.repository.ContactRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
+@UnitTest
 class CompanyConverterTest {
 
     @InjectMocks

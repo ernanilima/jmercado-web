@@ -2,6 +2,7 @@ package br.com.ernanilima.auth.service.impl;
 
 import br.com.ernanilima.auth.builder.CompanyBuilder;
 import br.com.ernanilima.auth.builder.UserBuilder;
+import br.com.ernanilima.auth.config.annotation.UnitTest;
 import br.com.ernanilima.auth.converter.CompanyConverter;
 import br.com.ernanilima.auth.converter.UserConverter;
 import br.com.ernanilima.auth.dto.CompanyDTO;
@@ -15,12 +16,10 @@ import ch.qos.logback.core.Appender;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.LoggerFactory;
 
 import java.util.Optional;
@@ -34,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-@ExtendWith(MockitoExtension.class)
+@UnitTest
 class CompanyServiceImplTest {
 
     @InjectMocks

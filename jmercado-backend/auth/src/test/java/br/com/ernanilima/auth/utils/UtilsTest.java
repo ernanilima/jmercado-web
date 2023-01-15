@@ -1,5 +1,6 @@
 package br.com.ernanilima.auth.utils;
 
+import br.com.ernanilima.auth.config.annotation.UnitTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
@@ -8,6 +9,7 @@ import javax.persistence.EntityNotFoundException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@UnitTest
 class UtilsTest {
 
     @Test

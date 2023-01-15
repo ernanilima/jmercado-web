@@ -1,5 +1,6 @@
 package br.com.ernanilima.auth.utils;
 
+import br.com.ernanilima.auth.config.annotation.UnitTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import static br.com.ernanilima.auth.utils.I18n.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+@UnitTest
 class I18nTest {
 
     private DataIntegrityViolationException dataIntegrityViolationException;

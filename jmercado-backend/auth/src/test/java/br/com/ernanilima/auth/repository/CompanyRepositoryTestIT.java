@@ -1,6 +1,6 @@
 package br.com.ernanilima.auth.repository;
 
-import br.com.ernanilima.auth.config.annotation.RepositoryTest;
+import br.com.ernanilima.auth.config.annotation.IntegrationTest;
 import br.com.ernanilima.auth.core.StandardUsers;
 import br.com.ernanilima.auth.domain.Company;
 import org.junit.jupiter.api.DisplayName;
@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@RepositoryTest
+@IntegrationTest
 @Sql(scripts = {
         "classpath:/db/address.sql",
         "classpath:/db/company.sql",

@@ -1,17 +1,16 @@
 package br.com.ernanilima.auth.service.message;
 
+import br.com.ernanilima.auth.config.annotation.UnitTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.UUID;
 
 import static br.com.ernanilima.auth.utils.I18n.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@ExtendWith(MockitoExtension.class)
+@UnitTest
 class MessageTest {
 
     @InjectMocks

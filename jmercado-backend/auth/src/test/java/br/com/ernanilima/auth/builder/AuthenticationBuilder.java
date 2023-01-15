@@ -27,4 +27,12 @@ public final class AuthenticationBuilder {
                 loginDTO.getPassword()
         );
     }
+
+    public static LoginDTO getUserForLogin() {
+        return LoginDTO.builder()
+                .ein("00000000000191")
+                .email("test@ernanilima.com.br")
+                .password("123123")
+                .build();
+    }
 }

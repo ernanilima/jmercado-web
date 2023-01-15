@@ -34,11 +34,15 @@ import static java.text.MessageFormat.format;
 @AllArgsConstructor
 public class UserServiceImpl extends CrudService<User, UserDTO> implements UserService {
 
-    private final UserRepository userRepository;
     private final UserVerificationService userVerificationService;
     private final CompanyService companyService;
     private final BCryptPasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
+
+    @Override
+    public UserRepository getRepository() {
+        return (UserRepository) super.getRepository();
+    }
 
     @Override
     public UserDTO findByEmail(String email) {
@@ -50,7 +54,7 @@ public class UserServiceImpl extends CrudService<User, UserDTO> implements UserS
     public User findByEmailAndCompanyEin(String email, String companyEin) {
         log.info("{}:findByEmailAndCompanyEin(obj), iniciando busca do usuario com o e-mail {} para a empresa {}", CLASS_NAME, email, companyEin);
 
-        Optional<User> result = userRepository.findByEmailAndCompany_Ein(email, companyEin);
+        Optional<User> result = this.getRepository().findByEmailAndCompany_Ein(email, companyEin);
 
         User user = result.orElseThrow(() -> {
             log.error("{}:findByEmailAndCompanyEin(obj), nao localizado o usuario com o e-mail {} para a empresa {}", CLASS_NAME, email, companyEin);

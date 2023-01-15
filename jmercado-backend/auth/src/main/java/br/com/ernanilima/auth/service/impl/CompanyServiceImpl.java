@@ -26,21 +26,24 @@ import static java.text.MessageFormat.format;
 @Service
 public class CompanyServiceImpl extends CrudService<Company, CompanyDTO> implements CompanyService {
 
-    private final CompanyRepository companyRepository;
     private final UserService userService;
     private final UserConverter userConverter;
 
-    public CompanyServiceImpl(CompanyRepository companyRepository, @Lazy UserService userService, UserConverter userConverter) {
-        this.companyRepository = companyRepository;
+    public CompanyServiceImpl(@Lazy UserService userService, UserConverter userConverter) {
         this.userService = userService;
         this.userConverter = userConverter;
+    }
+
+    @Override
+    public CompanyRepository getRepository() {
+        return (CompanyRepository) super.getRepository();
     }
 
     @Override
     public CompanyDTO findByEin(String ein) {
         log.info("{}:findByEin(obj), iniciando busca da empresa com o cnpj {}", CLASS_NAME, ein);
 
-        Optional<Company> result = companyRepository.findByEin(ein);
+        Optional<Company> result = this.getRepository().findByEin(ein);
 
         Company company = result.orElseThrow(() -> {
             log.error("{}:findByEin(obj), erro ao buscar a empresa com o cnpj {}", CLASS_NAME, ein);

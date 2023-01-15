@@ -6,6 +6,7 @@ import br.com.ernanilima.auth.dto.DTOUpdate;
 import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
 import br.com.ernanilima.auth.utils.I18n;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -26,9 +27,11 @@ public abstract class ReadOnlyService<E extends AuthEntity, D extends DTOUpdate>
     protected final String CLASS_NAME = this.getClass().getSimpleName();
     protected final Class<E> ENTITY = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
+    @Setter
     @Autowired
     private JpaRepository<E, UUID> repository;
 
+    @Setter
     @Autowired
     private DTOConverter<E, D> converter;
 

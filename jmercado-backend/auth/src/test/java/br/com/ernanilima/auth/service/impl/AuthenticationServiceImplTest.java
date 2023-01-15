@@ -71,7 +71,7 @@ class AuthenticationServiceImplTest {
         LoginDTO loginDTO = AuthenticationBuilder.createLoginDTO();
 
         when(jwtUtilsMock.getEncoderAuthentication(any())).thenReturn(AuthenticationBuilder.createUsernamePasswordAuthenticationToken());
-        doThrow(new BadCredentialsException(getMessage(BAD_CREDENTIALS))).when(authenticationManagerMock).authenticate(any());
+        doThrow(new BadCredentialsException("")).when(authenticationManagerMock).authenticate(any());
 
         JwtAuthenticationException exception = assertThrows(JwtAuthenticationException.class, () -> authenticationServiceMock.login(loginDTO));
         assertThat(exception.getMessage(), is(getMessage(BAD_CREDENTIALS)));

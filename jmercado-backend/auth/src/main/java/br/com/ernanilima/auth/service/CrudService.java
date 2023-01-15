@@ -7,6 +7,7 @@ import br.com.ernanilima.auth.service.exception.ObjectNotFoundException;
 import br.com.ernanilima.auth.service.message.Message;
 import br.com.ernanilima.auth.utils.I18n;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,6 +24,7 @@ import static java.text.MessageFormat.format;
 public abstract class CrudService<E extends AuthEntity, D extends DTOUpdate>
         extends ReadOnlyService<E, D> {
 
+    @Setter
     @Autowired
     private Message message;
 

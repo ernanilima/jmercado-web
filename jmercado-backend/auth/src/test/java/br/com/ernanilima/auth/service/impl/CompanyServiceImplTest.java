@@ -4,7 +4,6 @@ import br.com.ernanilima.auth.builder.CompanyBuilder;
 import br.com.ernanilima.auth.builder.UserBuilder;
 import br.com.ernanilima.auth.converter.CompanyConverter;
 import br.com.ernanilima.auth.converter.UserConverter;
-import br.com.ernanilima.auth.domain.Company;
 import br.com.ernanilima.auth.dto.CompanyDTO;
 import br.com.ernanilima.auth.dto.UserBasicDTO;
 import br.com.ernanilima.auth.repository.CompanyRepository;
@@ -105,7 +104,7 @@ class CompanyServiceImplTest {
         when(companyRepositoryMock.findByEin(any())).thenReturn(Optional.empty());
 
         ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class, () -> companyServiceMock.findByEin(ein));
-        assertThat(exception.getMessage(), is(format(getMessage(OBJECT_NOT_FOUND), getClassName(Company.class.getSimpleName()))));
+        assertThat(exception.getMessage(), is(format(getMessage(OBJECT_NOT_FOUND), getClassName(companyServiceMock.getENTITY().getSimpleName()))));
 
         verify(companyRepositoryMock, times(1)).findByEin(any());
         verify(appenderMock, times(2)).doAppend(argumentCaptor.capture());

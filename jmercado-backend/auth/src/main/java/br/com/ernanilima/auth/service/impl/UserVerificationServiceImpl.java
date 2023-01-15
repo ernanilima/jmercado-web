@@ -78,12 +78,12 @@ public class UserVerificationServiceImpl extends CrudService<UserVerification, U
 
         UserVerificationDTO userVerificationDTO = findBySecurityLink(dto.getSecurityLink());
 
-        if (Objects.equals(dto.getSecurityCode(), userVerificationDTO.getSecurityCode())) {
-            log.info("{}:update(obj), verificacao realizada para atualizacao do usuario com o e-mail {}", CLASS_NAME, userVerificationDTO.getUser().getEmail());
-            return super.update(userVerificationDTO.getId(), userVerificationDTO.toBuilder().checked(Boolean.TRUE).build());
+        if (!Objects.equals(dto.getSecurityCode(), userVerificationDTO.getSecurityCode())) {
+            log.error("{}:update(obj), verificacao nao realizada com sucesso para o usuario com o e-mail {}", CLASS_NAME, userVerificationDTO.getUser().getEmail());
+            throw new VerificationException(I18n.getMessage(VERIFICATION_NOT_SUCCESSFUL));
         }
 
-        log.error("{}:update(obj), verificacao nao realizada com sucesso para o usuario com o e-mail {}", CLASS_NAME, userVerificationDTO.getUser().getEmail());
-        throw new VerificationException(I18n.getMessage(VERIFICATION_NOT_SUCCESSFUL));
+        log.info("{}:update(obj), verificacao realizada para atualizacao do usuario com o e-mail {}", CLASS_NAME, userVerificationDTO.getUser().getEmail());
+        return super.update(userVerificationDTO.getId(), userVerificationDTO.toBuilder().checked(Boolean.TRUE).build());
     }
 }

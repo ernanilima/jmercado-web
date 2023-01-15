@@ -132,7 +132,7 @@ class UserServiceImplTest {
         when(userRepositoryMock.findByEmailAndCompany_Ein(any(), any())).thenReturn(Optional.empty());
 
         ObjectNotFoundException exception = assertThrows(ObjectNotFoundException.class, () -> userServiceMock.findByEmail(email));
-        assertThat(exception.getMessage(), is(format(getMessage(OBJECT_NOT_FOUND), getClassName(User.class.getSimpleName()))));
+        assertThat(exception.getMessage(), is(format(getMessage(OBJECT_NOT_FOUND), getClassName(userServiceMock.getENTITY().getSimpleName()))));
 
         verify(userRepositoryMock, times(1)).findByEmailAndCompany_Ein(any(), any());
         verify(appenderMock, times(2)).doAppend(argumentCaptor.capture());

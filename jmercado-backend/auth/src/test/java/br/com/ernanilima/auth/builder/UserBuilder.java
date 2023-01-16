@@ -38,6 +38,15 @@ public final class UserBuilder {
                 .build();
     }
 
+    public static UserDTO createDTOToInsert() {
+        return UserDTO.builder()
+                .name("Nome do usuario")
+                .email("email.user.insert@email.com")
+                .password("123123")
+                .roles(Set.of(RoleENUM.ADMINISTRATOR.getRole()))
+                .build();
+    }
+
     public static UserBasicDTO createBasicDTO() {
         return UserBasicDTO.builder()
                 .name("Nome do usuario")

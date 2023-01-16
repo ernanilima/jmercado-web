@@ -30,4 +30,21 @@ public final class ContactBuilder {
                 .whatsappCellPhone(Boolean.TRUE)
                 .build();
     }
+
+    public static ContactDTO createDTOToInsert() {
+        return ContactDTO.builder()
+                .email("email.insert@email.com")
+                .telephone("4144444444")
+                .cellPhone("41988888888")
+                .build();
+    }
+
+    public static ContactDTO createDTOToUpdate() {
+        return ContactDTO.builder()
+                .id(UUID.fromString("9204d1ed-7e59-486b-878f-64a9af90595e"))
+                .email("email.update@email.com")
+                .telephone("4133333333")
+                .cellPhone("41977777777")
+                .build();
+    }
 }
